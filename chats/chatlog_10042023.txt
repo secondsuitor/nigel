@@ -82,3 +82,23 @@ uwsgi --http :8000 --wsgi-file app.py
 ```
 
 This command starts a uWSGI server listening on port 8000 and runs the `application` function defined in `app.py`. You can then visit `http://localhost:8000` in your web browser to see the "Hello, world!" message.
+
+secondsuitor: add folders to .gitignore
+
+GitHub Copilot: Sure, to add folders to your `.gitignore` file, you can simply add the folder names to the file, one per line. Here's an example:
+
+```
+myenv/
+node_modules/
+dist/
+```
+
+In this example, the `myenv/`, `node_modules/`, and `dist/` folders are added to the `.gitignore` file. This means that any files in these folders will be ignored by Git and will not be included in your repository.
+
+Note that you can also use wildcards to ignore multiple files or folders with similar names. For example, to ignore all `.pyc` files in a folder, you can add the following line to your `.gitignore` file:
+
+```
+*.pyc
+```
+
+This will ignore all files with the `.pyc` extension in the current folder and its subfolders.
