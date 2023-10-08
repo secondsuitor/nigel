@@ -1,0 +1,161 @@
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: Failed to find Flask application or factory in module 'wsgi'. Use 'wsgi:name' to specify one.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask --app wsgi run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: Failed to find Flask application or factory in module 'wsgi'. Use 'wsgi:name' to specify one.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask --app wsgi:app run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: A valid Flask application was not obtained from 'wsgi:app'.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask --app nigel:app run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: Failed to find attribute 'app' in 'nigel'.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: Failed to find Flask application or factory in module 'wsgi'. Use 'wsgi:name' to specify one.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ ^C
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: Failed to find Flask application or factory in module 'wsgi'. Use 'wsgi:name' to specify one.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: Failed to find Flask application or factory in module 'wsgi'. Use 'wsgi:name' to specify one.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ echo FLASK_APP
+FLASK_APP
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ export FLASK_APP=wsgi.py
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: Failed to find Flask application or factory in module 'wsgi'. Use 'wsgi:name' to specify one.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: While importing 'wsgi', an ImportError was raised:
+
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/cli.py", line 219, in locate_app
+    __import__(module_name)
+  File "/home/kriminel/Documents/Code/nigel/wsgi.py", line 1, in <module>
+    from nigel import app
+ModuleNotFoundError: No module named 'nigel'
+
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: While importing 'wsgi', an ImportError was raised:
+
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/cli.py", line 219, in locate_app
+    __import__(module_name)
+  File "/home/kriminel/Documents/Code/nigel/wsgi.py", line 1, in <module>
+    from nigel import app
+ModuleNotFoundError: No module named 'nigel'
+
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: Failed to find Flask application or factory in module 'wsgi'. Use 'wsgi:name' to specify one.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: Failed to find Flask application or factory in module 'wsgi'. Use 'wsgi:name' to specify one.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ export FLASK_APP=wsgi.py
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: Failed to find Flask application or factory in module 'wsgi'. Use 'wsgi:name' to specify one.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: Failed to find Flask application or factory in module 'wsgi'. Use 'wsgi:name' to specify one.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: Failed to find Flask application or factory in module 'wsgi'. Use 'wsgi:name' to specify one.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: Failed to find Flask application or factory in module 'wsgi'. Use 'wsgi:name' to specify one.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ ^C
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run --app=application
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: No such option: --app
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: Failed to find Flask application or factory in module 'wsgi'. Use 'wsgi:name' to specify one.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run --app=application
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: No such option: --app
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ echo $FLASK_APP
+wsgi.py
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ export FLASK_APP=wsgi
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: Failed to find Flask application or factory in module 'wsgi'. Use 'wsgi:name' to specify one.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ export FLASK_APP=wsgi.app
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ export FLASK_APP=wsgi
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: Failed to find Flask application or factory in module 'wsgi'. Use 'wsgi:name' to specify one.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ export FLASK_APP=wsgi.app
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: Could not import 'wsgi.app'.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ export FLASK_APP=wsgi
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask --app wsgi:app run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: Failed to find attribute 'app' in 'wsgi'.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask --app wsgi.app run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: Could not import 'wsgi.app'.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask --app wsgi:application run
+Usage: flask run [OPTIONS]
+Try 'flask run --help' for help.
+
+Error: A valid Flask application was not obtained from 'wsgi:application'.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+ * Serving Flask app 'wsgi'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+^C(myenv) kriminel@pop-os:~/Documents/Code/nigel$ 
