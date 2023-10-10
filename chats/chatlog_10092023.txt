@@ -1,0 +1,5 @@
+secondsuitor: flask run isn't finding models.py
+
+GitHub Copilot: It's possible that the current working directory is not set to the root directory of your Flask application. You can try setting the `FLASK_APP` environment variable to the name of your Flask application, and then running `flask run` again. 
+
+If that doesn't work, make sure that the `models.py` file is in the same directory as your Flask application file (usually named `app.py` or `__init__.py`). If it's in a different directory, you may need to add that directory to your `PYTHONPATH` environment variable.
