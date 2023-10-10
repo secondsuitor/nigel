@@ -1,5 +1,5 @@
 from flask import render_template, request
-from models import db, Post
+from app.models import db, Post
 
 def home():
     posts = Post.query.all()

@@ -1,6 +1,6 @@
 from flask import Flask
-from models import db
-from routes import home, post, new_post
+from app.models import db
+from app.routes import home, post, new_post
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
