@@ -8,7 +8,10 @@
     <h1>Welcome to my Flask app!</h1>
     <p>This is the index page.</p>
     {% for post in posts %}
-    <div>{{ post }}</div>
+    <div>
+      <h1>{{ post.title }}</h1>
+      <p>{{ post.content }}</p>
+    </div>
     {% endfor %}
   </body>
 </html>
