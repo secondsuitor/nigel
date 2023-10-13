@@ -7,5 +7,8 @@
     {% include 'menu.html' %}
     <h1>Welcome to my Flask app!</h1>
     <p>This is the index page.</p>
+    {% for post in posts %}
+    <div>{{ post }}</div>
+    {% endfor %}
   </body>
 </html>
