@@ -2,8 +2,9 @@ from flask import render_template, request
 from app.models import db, Post
 
 def home():
-    posts = Post.query.all()
-    return render_template('home.html', posts=posts)
+    #posts = Post.query.all()
+    title = "Home"
+    return render_template('home.html', title=title) #, posts=posts)
 
 def post(id):
     post = Post.query.get_or_404(id)
