@@ -12,6 +12,4 @@ migrate = Migrate(app, db)
 from app import models
 from app.routes import home, post, new_post
 
-app.route('/')(home)
-app.route('/post/<int:id>')(post)
-app.route('/new_post', methods=['GET', 'POST'])(new_post)
+
