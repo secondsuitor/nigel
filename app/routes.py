@@ -1,5 +1,7 @@
 from flask import render_template, request
-from app.models import db, Post
+#from app import app
+#from app import db
+from app.models import Post
 
 def home():
     #posts = Post.query.all()
@@ -20,6 +22,6 @@ def new_post():
         title = request.form['title']
         content = request.form['content']
         post = Post(title=title, content=content)
-        db.session.add(post)
-        db.session.commit()
+        #db.session.add(post)
+        #db.session.commit()
     return render_template('new_post.html')
