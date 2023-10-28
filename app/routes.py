@@ -28,3 +28,37 @@ def new_post():
         db.session.commit()
         return redirect(url_for('home'))
     return render_template('new_post.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        #password = request.form['password']
+        #user = User.query.filter_by(username=username).first()
+        #if user:
+        #    user.logged_in = True
+        #    db.session.commit()
+        #    return redirect(url_for('home'))
+        #else:
+        #    return redirect(url_for('login'))
+        return redirect(url_for('home'))
+    return render_template('login.html')
+
+@app.route('/logout')  
+def logout():
+    #user = User.query.filter_by(logged_in=True).first()
+    #if user:
+    #    user.logged_in = False
+    #    db.session.commit()
+    return redirect(url_for('home'))
+
+@app.route('/register', methods=['GET', 'POST'])
+def register_user():
+    if request.method == 'POST':
+        username = request.form['username']
+        #password = request.form['password']
+        #user = User(username=username, password=password)
+        #db.session.add(user)
+        #db.session.commit()
+        return redirect(url_for('home'))
+    return render_template('register.html')
