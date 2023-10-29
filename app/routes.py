@@ -52,7 +52,7 @@ def logout():
     #    db.session.commit()
     return redirect(url_for('home'))
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register_user', methods=['GET', 'POST'])
 def register_user():
     if request.method == 'POST':
         username = request.form['username']
