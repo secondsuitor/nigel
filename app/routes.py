@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for
 from app import app, db
-from app.models import Post
+from app.models import Post, User
 
 @app.route('/')
 def home():
@@ -56,8 +56,10 @@ def logout():
 def register_user():
     if request.method == 'POST':
         username = request.form['username']
-        #password = request.form['password']
-        #user = User(username=username, password=password)
+        password = request.form['password']
+        password2 = request.form['password2']
+        email = request.form['email']
+        user = User(username=username, password=password, password2=password2, email=email)
         #db.session.add(user)
         #db.session.commit()
         return redirect(url_for('home'))
