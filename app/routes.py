@@ -33,23 +33,27 @@ def new_post():
 def login():
     if request.method == 'POST':
         username = request.form['username']
-        #password = request.form['password']
-        #user = User.query.filter_by(username=username).first()
-        #if user:
-        #    user.logged_in = True
-        #    db.session.commit()
-        #    return redirect(url_for('home'))
-        #else:
-        #    return redirect(url_for('login'))
-        return redirect(url_for('home'))
+        password = request.form['password']
+        user = User.query.filter_by(username=username).first()
+        if user:
+            if user.check_password(password):
+                user.logged_in = True
+                db.session.commit()
+                return redirect(url_for('home'))
+            else:
+                flash("Incorrect password")
+                return redirect(url_for('login'))
+        else:
+            flash("User not found")
+            return redirect(url_for('login'))   
     return render_template('login.html')
 
 @app.route('/logout')  
 def logout():
-    #user = User.query.filter_by(logged_in=True).first()
-    #if user:
-    #    user.logged_in = False
-    #    db.session.commit()
+    user = User.query.filter_by(logged_in=True).first()
+    if user:
+        user.logged_in = False
+        db.session.commit()
     return redirect(url_for('home'))
 
 @app.route('/register_user', methods=['GET', 'POST'])
