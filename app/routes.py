@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, flash
 from app import app, db
 from app.models import Post, User
 
@@ -59,8 +59,15 @@ def register_user():
         password = request.form['password']
         password2 = request.form['password2']
         email = request.form['email']
-        user = User(username=username, password=password, password2=password2, email=email)
-        #db.session.add(user)
-        #db.session.commit()
+
+        if not User().check_password_match(password, password2):
+            flash("Passwords don't match")
+            return redirect(url_for('register_user'))
+
+        user = User(username=username, email=email)
+        user.set_password(password)
+        db.session.add(user)
+        db.session.commit()
+        flash("User registered")
         return redirect(url_for('home'))
-    return render_template('register.html')
+    return render_template('register_user.html')
