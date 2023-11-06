@@ -1,6 +1,9 @@
 from flask import render_template, request, redirect, url_for, flash
-from app import app, db
-from app.models import Post, User
+from flask_login import login_user, logout_user, login_required, current_user
+from app import app
+from app.models import User
+from app import db
+from app.models import Post
 
 @app.route('/')
 def home():
@@ -19,6 +22,7 @@ def post(id):
     return render_template('post.html', post=post)
 
 @app.route('/new_post', methods=['GET', 'POST'])
+@login_required
 def new_post():
     if request.method == 'POST':
         title = request.form['title']
@@ -36,11 +40,11 @@ def login():
         password = request.form['password']
         user = User.query.filter_by(username=username).first()
         if user:
-            if user.check_password(password):
-                user.logged_in = True
-                db.session.commit()
+           if user.check_password(password):
+                login_user(user)
+                flash("Logged in as {}".format(current_user.username))
                 return redirect(url_for('home'))
-            else:
+           else:
                 flash("Incorrect password")
                 return redirect(url_for('login'))
         else:
@@ -50,10 +54,8 @@ def login():
 
 @app.route('/logout')  
 def logout():
-    user = User.query.filter_by(logged_in=True).first()
-    if user:
-        user.logged_in = False
-        db.session.commit()
+    #logout_user()
+    flash("Logged out")
     return redirect(url_for('home'))
 
 @app.route('/register_user', methods=['GET', 'POST'])
