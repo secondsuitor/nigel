@@ -77,3 +77,5 @@ def register_user():
         flash("User registered")
         return redirect(url_for('home'))
     return render_template('register_user.html')
+
+
