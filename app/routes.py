@@ -41,7 +41,7 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user:
            if user.check_password(password):
-                login_user(user)
+                login_user(user.user_id)
                 flash("Logged in as {}".format(current_user.username))
                 return redirect(url_for('home'))
            else:
