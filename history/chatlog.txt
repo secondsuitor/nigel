@@ -1802,3 +1802,104 @@ db.session.commit()
 In this example, we're creating a new `Post` and setting the `user_id` to the ID of the currently logged-in user. We then add the new `Post` to the session and commit the session to save the new `Post` to the database.
 
 If you're still encountering the error after making these changes, please provide more information about your setup and the exact error message you're seeing.
+
+secondsuitor: i'm getting error: AttributeError: 'str' object has no attribute 'user_id'
+
+GitHub Copilot: This error typically occurs when you're trying to access the `user_id` attribute on a string object. In your code, the `user_id` is an attribute of the `User` and `Post` classes, not a string.
+
+Here's a common scenario where this error might occur:
+
+```python
+user = "some string"
+print(user.user_id)
+```
+
+In this case, `user` is a string, and strings don't have a `user_id` attribute, hence the `AttributeError`.
+
+To fix this, you need to ensure that the object you're trying to access `user_id` from is an instance of the `User` or `Post` class, not a string.
+
+For example:
+
+```python
+user = User.query.get(1)  # Get the User instance with user_id of 1
+print(user.user_id)  # This should work
+```
+
+Without seeing the code where the error occurs, it's hard to give a more specific solution. Could you provide the code that's causing the error?
+
+secondsuitor:    def get(self):
+        return str(self.user_id)
+
+GitHub Copilot: The code you provided is a method of a class, likely the `User` or `Post` class, that returns the `user_id` attribute as a string. This code should work fine as long as `user_id` is an attribute of the class.
+
+Here's an example of how it might be used:
+
+```python
+class User:
+    def __init__(self, user_id):
+        self.user_id = user_id
+
+    def get(self):
+        return str(self.user_id)
+
+user = User(1)
+print(user.get())  # Prints: '1'
+```
+
+If you're getting an `AttributeError: 'str' object has no attribute 'user_id'`, it means you're calling `get()` on a string, not a `User` instance. Make sure you're calling this method on an instance of the correct class.
+
+If you're still having trouble, could you provide more context or the full class definition?
+
+secondsuitor: class User(UserMixin, db.Model):
+    user_id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100), nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
+    logged_in = db.Column(db.Boolean, default=False)
+    email = db.Column(db.String(100), nullable=False)
+    is_authenricated = db.Column(db.Boolean, default=False)
+    is_active = db.Column(db.Boolean, default=True)
+    is_anonymous = db.Column(db.Boolean, default=False)
+    
+    def __init__(self, user_id):
+        self.user_id = user_id
+
+    def get(self):
+        return str(self.user_id)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+    
+    def check_password_match(self, password, password2):
+        return password == password2
+
+GitHub Copilot: The `User` class you've defined seems correct. The `get` method should return the `user_id` as a string without any issues. If you're getting an `AttributeError: 'str' object has no attribute 'user_id'`, it's likely that you're calling `get()` on a string instead of a `User` instance.
+
+Here's an example of how you should create a `User` instance and call the `get` method:
+
+```python
+user = User(1)  # Create a User instance with user_id of 1
+print(user.get())  # This should print '1'
+```
+
+If you're still encountering the error, please provide the code where you're creating the `User` instance and calling the `get` method.
+
+secondsuitor: @login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
+
+GitHub Copilot: The issue is that you're calling `get` as a static method on the `User` class, but `get` is an instance method. You need to first retrieve the user from the database, and then call `get` on that user instance.
+
+Here's how you can do it:
+
+```python
+@login_manager.user_loader
+def load_user(user_id):
+    user = User.query.get(int(user_id))
+    return user.get() if user else None
+```
+
+In this code, `User.query.get(int(user_id))` retrieves the user with the given `user_id` from the database. Then, `user.get()` is called to return the `user_id` as a string. If no user with the given `user_id` is found, `None` is returned.
+

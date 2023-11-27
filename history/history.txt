@@ -2967,3 +2967,823 @@ sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) NOT NULL constraint fail
 (Background on this error at: https://sqlalche.me/e/20/gkpj)
 127.0.0.1 - - [18/Nov/2023 11:31:59] "POST /new_post HTTP/1.1" 500 -
 ^C(myenv) kriminel@pop-os:~/Documents/Code/nigel$ 
+.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/kriminel/Documents/Code/nigel/app/routes.py", line 53, in login
+    return render_template('login.html')
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 152, in render_template
+    return _render(app, template, context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 129, in _render
+    app.update_template_context(context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 480, in update_template_context
+    context.update(self.ensure_sync(func)())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 405, in _user_context_processor
+    return dict(current_user=_get_user())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 370, in _get_user
+    current_app.login_manager._load_user()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 31, in load_user
+    return User.get(user_id)
+AttributeError: type object 'User' has no attribute 'get'
+127.0.0.1 - - [26/Nov/2023 14:28:44] "GET /login HTTP/1.1" 500 -
+[2023-11-26 14:28:46,211] ERROR in app: Exception on /login [GET]
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/kriminel/Documents/Code/nigel/app/routes.py", line 53, in login
+    return render_template('login.html')
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 152, in render_template
+    return _render(app, template, context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 129, in _render
+    app.update_template_context(context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 480, in update_template_context
+    context.update(self.ensure_sync(func)())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 405, in _user_context_processor
+    return dict(current_user=_get_user())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 370, in _get_user
+    current_app.login_manager._load_user()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 31, in load_user
+    return User.get(user_id)
+AttributeError: type object 'User' has no attribute 'get'
+127.0.0.1 - - [26/Nov/2023 14:28:46] "GET /login HTTP/1.1" 500 -
+[2023-11-26 14:28:46,972] ERROR in app: Exception on / [GET]
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/kriminel/Documents/Code/nigel/app/routes.py", line 17, in home
+    return render_template('home.html', title=title, posts=posts)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 152, in render_template
+    return _render(app, template, context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 129, in _render
+    app.update_template_context(context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 480, in update_template_context
+    context.update(self.ensure_sync(func)())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 405, in _user_context_processor
+    return dict(current_user=_get_user())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 370, in _get_user
+    current_app.login_manager._load_user()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 31, in load_user
+    return User.get(user_id)
+AttributeError: type object 'User' has no attribute 'get'
+127.0.0.1 - - [26/Nov/2023 14:28:46] "GET / HTTP/1.1" 500 -
+[2023-11-26 14:28:48,184] ERROR in app: Exception on / [GET]
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/kriminel/Documents/Code/nigel/app/routes.py", line 17, in home
+    return render_template('home.html', title=title, posts=posts)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 152, in render_template
+    return _render(app, template, context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 129, in _render
+    app.update_template_context(context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 480, in update_template_context
+    context.update(self.ensure_sync(func)())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 405, in _user_context_processor
+    return dict(current_user=_get_user())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 370, in _get_user
+    current_app.login_manager._load_user()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 31, in load_user
+    return User.get(user_id)
+AttributeError: type object 'User' has no attribute 'get'
+127.0.0.1 - - [26/Nov/2023 14:28:48] "GET / HTTP/1.1" 500 -
+[2023-11-26 14:28:51,309] ERROR in app: Exception on / [GET]
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/kriminel/Documents/Code/nigel/app/routes.py", line 17, in home
+    return render_template('home.html', title=title, posts=posts)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 152, in render_template
+    return _render(app, template, context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 129, in _render
+    app.update_template_context(context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 480, in update_template_context
+    context.update(self.ensure_sync(func)())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 405, in _user_context_processor
+    return dict(current_user=_get_user())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 370, in _get_user
+    current_app.login_manager._load_user()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 31, in load_user
+    return User.get(user_id)
+AttributeError: type object 'User' has no attribute 'get'
+127.0.0.1 - - [26/Nov/2023 14:28:51] "GET / HTTP/1.1" 500 -
+^C(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask db migrate -m "add user attributes"
+from app import models
+from app import routes #.routes import home, post, new_post
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.autogenerate.compare] Detected added column 'user.is_authenricated'
+INFO  [alembic.autogenerate.compare] Detected added column 'user.is_active'
+INFO  [alembic.autogenerate.compare] Detected added column 'user.is_anonymous'
+  Generating /home/kriminel/Documents/Code/nigel/migrations/versions/48c17cbc26cf_add_user_attributes.py ...  done
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask db upgrade 
+from app import models
+from app import routes #.routes import home, post, new_post
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade 021dcc0c484a -> 48c17cbc26cf, add user attributes
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+from app import models
+from app import routes #.routes import home, post, new_post
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+[2023-11-26 14:45:03,439] ERROR in app: Exception on / [GET]
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/kriminel/Documents/Code/nigel/app/routes.py", line 17, in home
+    return render_template('home.html', title=title, posts=posts)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 152, in render_template
+    return _render(app, template, context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 129, in _render
+    app.update_template_context(context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 480, in update_template_context
+    context.update(self.ensure_sync(func)())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 405, in _user_context_processor
+    return dict(current_user=_get_user())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 370, in _get_user
+    current_app.login_manager._load_user()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 37, in load_user
+    return User.get(user_id)
+AttributeError: type object 'User' has no attribute 'get'
+127.0.0.1 - - [26/Nov/2023 14:45:03] "GET / HTTP/1.1" 500 -
+^C(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+from app import models
+from app import routes #.routes import home, post, new_post
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+[2023-11-26 14:45:49,252] ERROR in app: Exception on / [GET]
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/kriminel/Documents/Code/nigel/app/routes.py", line 17, in home
+    return render_template('home.html', title=title, posts=posts)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 152, in render_template
+    return _render(app, template, context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 129, in _render
+    app.update_template_context(context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 480, in update_template_context
+    context.update(self.ensure_sync(func)())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 405, in _user_context_processor
+    return dict(current_user=_get_user())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 370, in _get_user
+    current_app.login_manager._load_user()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 37, in load_user
+    return User.get_id(user_id)
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 24, in get_id
+    return str(self.user_id)
+AttributeError: 'str' object has no attribute 'user_id'
+127.0.0.1 - - [26/Nov/2023 14:45:49] "GET / HTTP/1.1" 500 -
+^C(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask db migrate -m "fix user attributes"
+from app import models
+from app import routes #.routes import home, post, new_post
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.env] No changes in schema detected.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask db upgrade 
+from app import models
+from app import routes #.routes import home, post, new_post
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+from app import models
+from app import routes #.routes import home, post, new_post
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+[2023-11-26 14:46:34,556] ERROR in app: Exception on / [GET]
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/kriminel/Documents/Code/nigel/app/routes.py", line 17, in home
+    return render_template('home.html', title=title, posts=posts)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 152, in render_template
+    return _render(app, template, context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 129, in _render
+    app.update_template_context(context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 480, in update_template_context
+    context.update(self.ensure_sync(func)())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 405, in _user_context_processor
+    return dict(current_user=_get_user())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 370, in _get_user
+    current_app.login_manager._load_user()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 37, in load_user
+    return User.get_id(user_id)
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 24, in get_id
+    return str(self.user_id)
+AttributeError: 'str' object has no attribute 'user_id'
+127.0.0.1 - - [26/Nov/2023 14:46:34] "GET / HTTP/1.1" 500 -
+^C(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+from app import models
+from app import routes #.routes import home, post, new_post
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+[2023-11-26 14:53:04,921] ERROR in app: Exception on / [GET]
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/kriminel/Documents/Code/nigel/app/routes.py", line 17, in home
+    return render_template('home.html', title=title, posts=posts)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 152, in render_template
+    return _render(app, template, context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 129, in _render
+    app.update_template_context(context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 480, in update_template_context
+    context.update(self.ensure_sync(func)())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 405, in _user_context_processor
+    return dict(current_user=_get_user())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 370, in _get_user
+    current_app.login_manager._load_user()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 37, in load_user
+    return User.get_id(str(user_id))
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 24, in get_id
+    return str(self.user_id)
+AttributeError: 'str' object has no attribute 'user_id'
+127.0.0.1 - - [26/Nov/2023 14:53:04] "GET / HTTP/1.1" 500 -
+^C(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+from app import models
+from app import routes #.routes import home, post, new_post
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+[2023-11-26 14:54:11,360] ERROR in app: Exception on / [GET]
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/kriminel/Documents/Code/nigel/app/routes.py", line 17, in home
+    return render_template('home.html', title=title, posts=posts)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 152, in render_template
+    return _render(app, template, context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 129, in _render
+    app.update_template_context(context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 480, in update_template_context
+    context.update(self.ensure_sync(func)())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 405, in _user_context_processor
+    return dict(current_user=_get_user())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 370, in _get_user
+    current_app.login_manager._load_user()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 37, in load_user
+    return User.get(user_id)
+AttributeError: type object 'User' has no attribute 'get'
+127.0.0.1 - - [26/Nov/2023 14:54:11] "GET / HTTP/1.1" 500 -
+^C(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask db migrate -m "fix user attributes again"
+from app import models
+from app import routes #.routes import home, post, new_post
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.env] No changes in schema detected.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask db upgrade 
+from app import models
+from app import routes #.routes import home, post, new_post
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+from app import models
+from app import routes #.routes import home, post, new_post
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+[2023-11-26 14:54:41,352] ERROR in app: Exception on / [GET]
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/kriminel/Documents/Code/nigel/app/routes.py", line 17, in home
+    return render_template('home.html', title=title, posts=posts)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 152, in render_template
+    return _render(app, template, context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 129, in _render
+    app.update_template_context(context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 480, in update_template_context
+    context.update(self.ensure_sync(func)())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 405, in _user_context_processor
+    return dict(current_user=_get_user())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 370, in _get_user
+    current_app.login_manager._load_user()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 37, in load_user
+    return User.get(user_id)
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 24, in get
+    return str(self.user_id)
+AttributeError: 'str' object has no attribute 'user_id'
+127.0.0.1 - - [26/Nov/2023 14:54:41] "GET / HTTP/1.1" 500 -
+^C(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+from app import models
+from app import routes #.routes import home, post, new_post
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+[2023-11-26 18:49:06,336] ERROR in app: Exception on / [GET]
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/kriminel/Documents/Code/nigel/app/routes.py", line 17, in home
+    return render_template('home.html', title=title, posts=posts)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 152, in render_template
+    return _render(app, template, context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 129, in _render
+    app.update_template_context(context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 480, in update_template_context
+    context.update(self.ensure_sync(func)())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 405, in _user_context_processor
+    return dict(current_user=_get_user())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 370, in _get_user
+    current_app.login_manager._load_user()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 40, in load_user
+    return User.get(user_id)
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 27, in get
+    return str(self.user_id)
+AttributeError: 'str' object has no attribute 'user_id'
+127.0.0.1 - - [26/Nov/2023 18:49:06] "GET / HTTP/1.1" 500 -
+^C(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask db migrate -m "fix user attributes again 2"
+from app import models
+from app import routes #.routes import home, post, new_post
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.env] No changes in schema detected.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask db upgrade 
+from app import models
+from app import routes #.routes import home, post, new_post
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+from app import models
+from app import routes #.routes import home, post, new_post
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+[2023-11-26 18:49:25,810] ERROR in app: Exception on / [GET]
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/kriminel/Documents/Code/nigel/app/routes.py", line 17, in home
+    return render_template('home.html', title=title, posts=posts)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 152, in render_template
+    return _render(app, template, context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 129, in _render
+    app.update_template_context(context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 480, in update_template_context
+    context.update(self.ensure_sync(func)())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 405, in _user_context_processor
+    return dict(current_user=_get_user())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 370, in _get_user
+    current_app.login_manager._load_user()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 40, in load_user
+    return User.get(user_id)
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 27, in get
+    return str(self.user_id)
+AttributeError: 'str' object has no attribute 'user_id'
+127.0.0.1 - - [26/Nov/2023 18:49:25] "GET / HTTP/1.1" 500 -
+^C(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+from app import models
+from app import routes #.routes import home, post, new_post
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+[2023-11-26 18:51:02,169] ERROR in app: Exception on / [GET]
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/kriminel/Documents/Code/nigel/app/routes.py", line 17, in home
+    return render_template('home.html', title=title, posts=posts)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 152, in render_template
+    return _render(app, template, context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/templating.py", line 129, in _render
+    app.update_template_context(context)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 480, in update_template_context
+    context.update(self.ensure_sync(func)())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 405, in _user_context_processor
+    return dict(current_user=_get_user())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 370, in _get_user
+    current_app.login_manager._load_user()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 40, in load_user
+    return User.get(int(user_id))
+  File "/home/kriminel/Documents/Code/nigel/app/models.py", line 27, in get
+    return str(self.user_id)
+AttributeError: 'int' object has no attribute 'user_id'
+127.0.0.1 - - [26/Nov/2023 18:51:02] "GET / HTTP/1.1" 500 -
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask db migrate -m "fix user attributes again 3"
+from app import models
+from app import routes #.routes import home, post, new_post
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.autogenerate.compare] Detected added index 'ix_user_username' on '['username']'
+INFO  [alembic.autogenerate.compare] Detected removed column 'user.is_active'
+INFO  [alembic.autogenerate.compare] Detected removed column 'user.is_authenricated'
+INFO  [alembic.autogenerate.compare] Detected removed column 'user.logged_in'
+INFO  [alembic.autogenerate.compare] Detected removed column 'user.is_anonymous'
+  Generating /home/kriminel/Documents/Code/nigel/migrations/versions/3b38efd49282_fix_u
+  ser_attributes_again_3.py ...  done
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask db upgrade 
+from app import models
+from app import routes #.routes import home, post, new_post
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade 48c17cbc26cf -> 3b38efd49282, fix user attributes again 3
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1965, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/sqlalchemy/engine/default.py", line 921, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.IntegrityError: UNIQUE constraint failed: user.username
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/bin/flask", line 8, in <module>
+    sys.exit(main())
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/cli.py", line 1064, in main
+    cli.main()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/click/core.py", line 1078, in main
+    rv = self.invoke(ctx)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/click/core.py", line 1688, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/click/core.py", line 1688, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/click/core.py", line 1434, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/click/core.py", line 783, in invoke
+    return __callback(*args, **kwargs)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/click/decorators.py", line 33, in new_func
+    return f(get_current_context(), *args, **kwargs)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/cli.py", line 358, in decorator
+    return __ctx.invoke(f, *args, **kwargs)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/click/core.py", line 783, in invoke
+    return __callback(*args, **kwargs)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_migrate/cli.py", line 150, in upgrade
+    _upgrade(directory, revision, sql, tag, x_arg)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_migrate/__init__.py", line 111, in wrapped
+    f(*args, **kwargs)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_migrate/__init__.py", line 200, in upgrade
+    command.upgrade(config, revision, sql=sql, tag=tag)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/alembic/command.py", line 399, in upgrade
+    script.run_env()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/alembic/script/base.py", line 578, in run_env
+    util.load_python_file(self.dir, "env.py")
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/alembic/util/pyfiles.py", line 93, in load_python_file
+    module = load_module_py(module_id, path)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/alembic/util/pyfiles.py", line 109, in load_module_py
+    spec.loader.exec_module(module)  # type: ignore
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "migrations/env.py", line 113, in <module>
+    run_migrations_online()
+  File "migrations/env.py", line 107, in run_migrations_online
+    context.run_migrations()
+  File "<string>", line 8, in run_migrations
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/alembic/runtime/environment.py", line 937, in run_migrations
+    self.get_context().run_migrations(**kw)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/alembic/runtime/migration.py", line 624, in run_migrations
+    step.migration_fn(**kw)
+  File "/home/kriminel/Documents/Code/nigel/migrations/versions/3b38efd49282_fix_user_attributes_again_3.py", line 26, in upgrade
+    batch_op.drop_column('is_anonymous')
+  File "/usr/local/lib/python3.8/contextlib.py", line 120, in __exit__
+    next(self.gen)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/alembic/operations/base.py", line 375, in batch_alter_table
+    impl.flush()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/alembic/operations/batch.py", line 161, in flush
+    batch_impl._create(self.impl)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/alembic/operations/batch.py", line 477, in _create
+    op_impl.create_index(idx)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/alembic/ddl/impl.py", line 383, in create_index
+    self._exec(schema.CreateIndex(index, **kw))
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/alembic/ddl/impl.py", line 193, in _exec
+    return conn.execute(  # type: ignore[call-overload]
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1412, in execute
+    return meth(
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/sqlalchemy/sql/ddl.py", line 181, in _execute_on_connection
+    return connection._execute_ddl(
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1524, in _execute_ddl
+    ret = self._execute_context(
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1844, in _execute_context
+    return self._exec_single_context(
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1984, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 2339, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1965, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/sqlalchemy/engine/default.py", line 921, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: user.username
+[SQL: CREATE UNIQUE INDEX ix_user_username ON user (username)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask db init
+from app import models
+from app import routes #.routes import home, post, new_post
+Error: Directory migrations already exists and is not empty
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask db init
+from app import models
+from app import routes #.routes import home, post, new_post
+  Creating directory '/home/kriminel/Documents/Code/nigel/migrations' ...  done
+  Creating directory '/home/kriminel/Documents/Code/nigel/migrations/versions'
+  ...  done
+  Generating /home/kriminel/Documents/Code/nigel/migrations/alembic.ini ...  done
+  Generating /home/kriminel/Documents/Code/nigel/migrations/README ...  done
+  Generating /home/kriminel/Documents/Code/nigel/migrations/env.py ...  done
+  Generating /home/kriminel/Documents/Code/nigel/migrations/script.py.mako ...  done
+  Please edit configuration/connection/logging settings in
+  '/home/kriminel/Documents/Code/nigel/migrations/alembic.ini' before
+  proceeding.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask db migrate -m "fix user attributes again 4"
+from app import models
+from app import routes #.routes import home, post, new_post
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+ERROR [flask_migrate] Error: Can't locate revision identified by '48c17cbc26cf'
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask db init
+from app import models
+from app import routes #.routes import home, post, new_post
+Error: Directory migrations already exists and is not empty
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask db init
+from app import models
+from app import routes #.routes import home, post, new_post
+  Creating directory '/home/kriminel/Documents/Code/nigel/migrations' ...  done
+  Creating directory '/home/kriminel/Documents/Code/nigel/migrations/versions'
+  ...  done
+  Generating /home/kriminel/Documents/Code/nigel/migrations/alembic.ini ...  done
+  Generating /home/kriminel/Documents/Code/nigel/migrations/README ...  done
+  Generating /home/kriminel/Documents/Code/nigel/migrations/env.py ...  done
+  Generating /home/kriminel/Documents/Code/nigel/migrations/script.py.mako ...  done
+  Please edit configuration/connection/logging settings in
+  '/home/kriminel/Documents/Code/nigel/migrations/alembic.ini' before
+  proceeding.
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask db migrate -m "fix user attributes again 5"
+from app import models
+from app import routes #.routes import home, post, new_post
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.autogenerate.compare] Detected added table 'user'
+INFO  [alembic.autogenerate.compare] Detected added index 'ix_user_username' on '['username']'
+INFO  [alembic.autogenerate.compare] Detected added table 'post'
+  Generating /home/kriminel/Documents/Code/nigel/migrations/versions/3fae1f6387
+  65_fix_user_attributes_again_5.py ...  done
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask db upgrade 
+from app import models
+from app import routes #.routes import home, post, new_post
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> 3fae1f638765, fix user attributes again 5
+(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+from app import models
+from app import routes #.routes import home, post, new_post
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+127.0.0.1 - - [26/Nov/2023 18:57:41] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/Nov/2023 18:57:44] "GET / HTTP/1.1" 200 -
+[2023-11-26 18:57:45,156] ERROR in app: Exception on /new_post [GET]
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 285, in decorated_view
+    return current_app.login_manager.unauthorized()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/login_manager.py", line 196, in unauthorized
+    redirect_url = make_login_url(login_view, next_url=request.url)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 120, in login_url
+    base = expand_login_view(login_view)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 97, in expand_login_view
+    return url_for(login_view)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/helpers.py", line 222, in url_for
+    return current_app.url_for(
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1071, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1060, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/werkzeug/routing/map.py", line 919, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'auth.login'. Did you mean 'login' instead?
+127.0.0.1 - - [26/Nov/2023 18:57:45] "GET /new_post HTTP/1.1" 500 -
+^C(myenv) kriminel@pop-os:~/Documents/Code/nigel$ flask run
+from app import models
+from app import routes #.routes import home, post, new_post
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+127.0.0.1 - - [26/Nov/2023 19:02:01] "GET /logout HTTP/1.1" 302 -
+127.0.0.1 - - [26/Nov/2023 19:02:01] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/Nov/2023 19:02:05] "GET /login HTTP/1.1" 200 -
+127.0.0.1 - - [26/Nov/2023 19:02:07] "GET / HTTP/1.1" 200 -
+[2023-11-26 19:02:09,716] ERROR in app: Exception on /new_post [GET]
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 285, in decorated_view
+    return current_app.login_manager.unauthorized()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/login_manager.py", line 196, in unauthorized
+    redirect_url = make_login_url(login_view, next_url=request.url)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 120, in login_url
+    base = expand_login_view(login_view)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 97, in expand_login_view
+    return url_for(login_view)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/helpers.py", line 222, in url_for
+    return current_app.url_for(
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1071, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1060, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/werkzeug/routing/map.py", line 919, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'auth.login'. Did you mean 'login' instead?
+127.0.0.1 - - [26/Nov/2023 19:02:09] "GET /new_post HTTP/1.1" 500 -
+127.0.0.1 - - [26/Nov/2023 19:03:02] "GET /logout HTTP/1.1" 302 -
+127.0.0.1 - - [26/Nov/2023 19:03:02] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/Nov/2023 19:03:03] "GET /register_user HTTP/1.1" 200 -
+[2023-11-26 19:03:14,756] ERROR in app: Exception on /register_user [POST]
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/kriminel/Documents/Code/nigel/app/routes.py", line 69, in register_user
+    if not User().check_password_match(password, password2):
+TypeError: __init__() missing 1 required positional argument: 'user_id'
+127.0.0.1 - - [26/Nov/2023 19:03:14] "POST /register_user HTTP/1.1" 500 -
+127.0.0.1 - - [26/Nov/2023 19:03:26] "GET /register_user HTTP/1.1" 200 -
+127.0.0.1 - - [26/Nov/2023 19:03:27] "GET /register_user HTTP/1.1" 200 -
+127.0.0.1 - - [26/Nov/2023 19:03:29] "GET /login HTTP/1.1" 200 -
+127.0.0.1 - - [26/Nov/2023 19:03:30] "POST /login HTTP/1.1" 302 -
+127.0.0.1 - - [26/Nov/2023 19:03:30] "GET /login HTTP/1.1" 200 -
+127.0.0.1 - - [26/Nov/2023 19:03:35] "POST /login HTTP/1.1" 302 -
+127.0.0.1 - - [26/Nov/2023 19:03:35] "GET /login HTTP/1.1" 200 -
+[2023-11-26 19:03:41,742] ERROR in app: Exception on /new_post [GET]
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 285, in decorated_view
+    return current_app.login_manager.unauthorized()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/login_manager.py", line 196, in unauthorized
+    redirect_url = make_login_url(login_view, next_url=request.url)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 120, in login_url
+    base = expand_login_view(login_view)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask_login/utils.py", line 97, in expand_login_view
+    return url_for(login_view)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/helpers.py", line 222, in url_for
+    return current_app.url_for(
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1071, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1060, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/werkzeug/routing/map.py", line 919, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'auth.login'. Did you mean 'login' instead?
+127.0.0.1 - - [26/Nov/2023 19:03:41] "GET /new_post HTTP/1.1" 500 -
+127.0.0.1 - - [26/Nov/2023 19:03:43] "GET /register_user HTTP/1.1" 200 -
+[2023-11-26 19:03:50,823] ERROR in app: Exception on /register_user [POST]
+Traceback (most recent call last):
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kriminel/Documents/Code/nigel/myenv/lib/python3.8/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/kriminel/Documents/Code/nigel/app/routes.py", line 69, in register_user
+    if not User().check_password_match(password, password2):
+TypeError: __init__() missing 1 required positional argument: 'user_id'
+127.0.0.1 - - [26/Nov/2023 19:03:50] "POST /register_user HTTP/1.1" 500 -
+127.0.0.1 - - [26/Nov/2023 19:03:52] "GET /register_user HTTP/1.1" 200 -
+^C(myenv) kriminel@pop-os:~/Documents/Code/nigel$ python
+Python 3.8.18 (default, Oct  2 2023, 19:30:04) 
+[GCC 11.4.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> 
