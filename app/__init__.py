@@ -31,4 +31,5 @@ print("from app import routes #.routes import home, post, new_post")
 
 
 login_manager.init_app(app)
+login_manager.login_view = 'login'
 #print("login.init_app(app)")
