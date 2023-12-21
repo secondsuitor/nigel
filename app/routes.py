@@ -4,6 +4,7 @@ from app import app
 from app.models import User
 from app import db
 from app.models import Post
+from app.forms import LoginForm
 
 @app.route('/')
 def home():
@@ -27,7 +28,7 @@ def new_post():
     if request.method == 'POST':
         title = request.form['title']
         content = request.form['content']
-        post = Post(title=title, content=content)
+        post = Post(user_id=current_user.user_id, title=title, content=content)
         db.session.add(post)
         db.session.commit()
         return redirect(url_for('home'))
@@ -35,27 +36,35 @@ def new_post():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        user = User.query.filter_by(username=username).first()
-        if user:
-           if user.check_password(password):
-                login_user(user.user_id)
-                flash("Logged in as {}".format(current_user.username))
-                return redirect(url_for('home'))
-           else:
-                flash("Incorrect password")
-                return redirect(url_for('login'))
-        else:
-            flash("User not found")
-            return redirect(url_for('login'))   
-    return render_template('login.html')
+    # Here we use a class of some kind to represent and validate our
+    # client-side form data. For example, WTForms is a library that will
+    # handle this for us, and we use a custom LoginForm to validate.
+    form = LoginForm()
+    flash('logging in')
+    if form.validate_on_submit() or request.method == 'POST':
+        user = User.query.filter_by(username=form.username.data).first()
+        # Login and validate the user.
+        # user should be an instance of your `User` class
+        login_user(user)
 
-@app.route('/logout')  
+        #next = request.args.get('next')
+        # url_has_allowed_host_and_scheme should check if the url is safe
+        # for redirects, meaning it matches the request host.
+        # See Django's url_has_allowed_host_and_scheme for an example.
+        #if not url_has_allowed_host_and_scheme(next, request.host):
+        #    return flask.abort(400)
+
+        #return redirect(next or url_for('index'))
+        flash("Logged in as {}".format(current_user.username))
+        return redirect(url_for('home'))
+    flash("or not")
+    return render_template('login.html', title="Login here", form=form)
+
+@app.route('/logout')
+@login_required  
 def logout():
-    #logout_user()
-    flash("Logged out")
+    flash("Logged out as {}".format(current_user.username))
+    logout_user()
     return redirect(url_for('home'))
 
 @app.route('/register_user', methods=['GET', 'POST'])
@@ -63,12 +72,11 @@ def register_user():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        password2 = request.form['password2']
         email = request.form['email']
 
-        if not User().check_password_match(password, password2):
-            flash("Passwords don't match")
-            return redirect(url_for('register_user'))
+        #if not User().check_password_match(password):
+        #    flash("Passwords don't match")
+        #    return redirect(url_for('register_user'))
 
         user = User(username=username, email=email)
         user.set_password(password)
