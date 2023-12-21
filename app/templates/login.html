@@ -5,14 +5,26 @@
         <title>{{ title }}</title>
     </head>
     <body>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class=" alert alert-info" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
       {% include 'menu.html' %}
         <h1>Login</h1>
-        <form action="/login" method="post">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username"><br><br>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password"><br><br>
-            <input type="submit" value="Submit">
+        <form method="POST" action="/login">
+        <div class="row">
+            <div class="col-md-4">
+                <table>{% for field in form %}
+                <tr>
+                    <th>{{ field.label }}</th>
+                    <td>{{ field }}</td>
+                </tr>{% endfor %}</table>
+            
+            </div>
+        </div>
         </form>
     </body>
 </html>
