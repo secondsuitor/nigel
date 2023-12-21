@@ -4,6 +4,13 @@
     <title>{{ title }}</title>
   </head>
   <body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+        <div class=" alert alert-info" role="alert">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
     {% include 'menu.html' %}
     <h1>Welcome to my Flask app!</h1>
     <p>This is the index page.</p>
