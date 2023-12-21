@@ -11,7 +11,7 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
 
 class User(UserMixin, db.Model):
-    user_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
     username = db.Column(db.String(100), index=True, unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     email = db.Column(db.String(100), nullable=False)
@@ -19,13 +19,13 @@ class User(UserMixin, db.Model):
     #is_active = db.Column(db.Boolean, default=True)
     #is_anonymous = db.Column(db.Boolean, default=False)
     
-    def __init__(self, user_id):
-        self.user_id = user_id
+    #def __init__(self, user_id):
+    #    self.user_id = user_id
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
-    def get(self):
+    def get_id(self):
         return str(self.user_id)
 
     def set_password(self, password):
