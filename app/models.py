@@ -7,8 +7,12 @@ from app import login_manager
 class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
     post_id = db.Column(db.Integer, primary_key=True)
+    parent_id = db.Column(db.Integer, db.ForeignKey('post.post_id'), nullable=True)
     title = db.Column(db.String(100), nullable=False)
     content = db.Column(db.Text, nullable=False)
+
+    # Relationship to get the parent post
+    parent = db.relationship('Post', remote_side=[post_id], backref='children')
 
 class User(UserMixin, db.Model):
     user_id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
