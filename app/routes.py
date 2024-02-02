@@ -20,7 +20,7 @@ def home():
 @app.route('/post/<int:post_id>')
 def post(post_id):
     post = Post.query.get_or_404(post_id)
-    return render_template('post.html', post_id=post_id)
+    return render_template('post.html', post=post)
 
 @app.route('/new_post', methods=['GET', 'POST'])
 @login_required
