@@ -34,6 +34,21 @@ def new_post():
         return redirect(url_for('home'))
     return render_template('new_post.html')
 
+@app.route('/edit_post/<int:post_id>', methods=['GET', 'POST'])
+@login_required
+def edit_post(post_id):
+    if request.method == 'POST':
+        title = request.form['title']
+        content = request.form['content']
+        post_id = request.form['post_id']
+        post = Post.query.get_or_404(post_id)
+        post.title = title
+        post.content = content
+        db.session.commit()
+        return redirect(url_for('home'))
+    post = Post.query.get_or_404(post_id)
+    return render_template('edit_post.html', post=post)
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     # Here we use a class of some kind to represent and validate our
