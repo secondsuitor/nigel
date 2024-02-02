@@ -17,10 +17,10 @@ def home():
     title = "Home"
     return render_template('home.html', title=title, posts=posts)
 
-@app.route('/post/<int:id>')
-def post(id):
-    post = Post.query.get_or_404(id)
-    return render_template('post.html', post=post)
+@app.route('/post/<int:post_id>')
+def post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('post.html', post_id=post_id)
 
 @app.route('/new_post', methods=['GET', 'POST'])
 @login_required

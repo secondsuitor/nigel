@@ -16,7 +16,8 @@
     <p>This is the index page.</p>
     {% for post in posts %}
     <div>
-      <h1>{{ post.title }}</h1>
+      <a href="{{ url_for('post', post_id=post.post_id) }}">
+      <h1>{{ post.title }}</h1></a>
       <p>{{ post.content }}</p>
     </div>
     {% endfor %}
