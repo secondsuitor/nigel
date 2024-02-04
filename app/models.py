@@ -38,6 +38,28 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
     
+class Footnote(db.Model):
+    footnote_id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.post_id'), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    source_id = db.Column(db.Integer, db.ForeignKey('source.source_id'), nullable=True)  # new source_id field
+
+    # Relationship to get the associated source
+    source = db.relationship('Source', backref='footnotes')
+
+
+class Source(db.Model):
+    source_id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.post_id'), nullable=False)
+    location = db.Column(db.String(100), nullable=False)
+    page = db.Column(db.Integer, nullable=False)
+    author = db.Column(db.String(100), nullable=False)
+    title = db.Column(db.String(100), nullable=False)
+    publisher = db.Column(db.String(100), nullable=False)
+    year = db.Column(db.Integer, nullable=False)
+
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
