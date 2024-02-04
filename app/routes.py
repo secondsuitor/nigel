@@ -5,6 +5,11 @@ from app.models import User
 from app import db
 from app.models import Post
 from app.forms import LoginForm
+import bleach # for sanitizing html
+
+# bleach settings
+allowed_tags = ['b', 'i', 'u', 'em', 'strong', 'p', 'br']
+allowed_attrs = {'*': ['class']}
 
 @app.route('/')
 def home():
@@ -27,7 +32,7 @@ def post(post_id):
 def new_post():
     if request.method == 'POST':
         title = request.form['title']
-        content = request.form['content']
+        content = bleach.clean(request.form['content'], tags=allowed_tags, attributes=allowed_attrs)
         post = Post(user_id=current_user.user_id, title=title, content=content)
         db.session.add(post)
         db.session.commit()
@@ -39,7 +44,7 @@ def new_post():
 def edit_post(post_id):
     if request.method == 'POST':
         title = request.form['title']
-        content = request.form['content']
+        content = bleach.clean(request.form['content'], tags=allowed_tags, attributes=allowed_attrs)
         post_id = request.form['post_id']
         post = Post.query.get_or_404(post_id)
         post.title = title

@@ -18,7 +18,7 @@
     <div>
       <a href="{{ url_for('post', post_id=post.post_id) }}">
       <h1>{{ post.title }}</h1></a>
-      <p>{{ post.content }}</p>
+      <p>{{ post.content|safe }}</p>
     </div>
     {% endfor %}
   </body>
