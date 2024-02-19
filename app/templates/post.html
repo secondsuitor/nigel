@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>{{ post.title }}</title>
-  </head>
-  <body>
+{% extends "_base.html" %}
+{% block content %}
     <h1>{{ post.title }}</h1>
     <p>{{ post.content|safe }}</p>
     <a href="{{ url_for('edit_post', post_id=post.post_id) }}">Edit</a>
-  </body>
-</html>
+{% endblock %}

@@ -1,4 +1,5 @@
-{% include "_base.html" %}
+{% extends "_base.html" %}
+{% block content %}
 <h1>Welcome to my Flask app!</h1>
     <p>This is the index page.</p>
     {% for post in posts %}
@@ -8,5 +9,4 @@
       <p>{{ post.content|safe }}</p>
     </div>
     {% endfor %}
-  </body>
-</html>
+  {% endblock %}

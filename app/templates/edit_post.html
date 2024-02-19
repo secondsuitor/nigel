@@ -1,4 +1,5 @@
-{% include "_base.html" %}
+{% extends "_base.html" %}
+{% block content %}
 <form action="/edit_post/{{ post.post_id }}" method="POST">
     <label for="title">Title:</label>
     <input type="text" id="title" name="title" required value="{{ post.title }}"><br><br>
@@ -8,5 +9,4 @@
 
     <button type="submit">Submit</button>
 </form>
-</body>
-</html>
+{% endblock %}
