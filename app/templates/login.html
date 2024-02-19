@@ -1,18 +1,4 @@
-<!-- FILEPATH: login.html -->
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>{{ title }}</title>
-    </head>
-    <body>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-            <div class=" alert alert-info" role="alert">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-        {% endwith %}
-      {% include 'menu.html' %}
+{% include "_base.html" %}
         <h1>Login</h1>
         <form method="POST" action="/login">
         <div class="row">

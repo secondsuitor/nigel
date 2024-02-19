@@ -1,11 +1,4 @@
-<!-- FILEPATH: /home/kriminel/Documents/Code/nigel/app/templates/new_post.html -->
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>{{ title }}</title>
-  </head>
-  <body>
-    {% include 'menu.html' %}
+{% include "_base.html" %}
     <h1>Register User</h1>
         <form action="/register_user" method="POST">
             <label for="username">Username:</label>
