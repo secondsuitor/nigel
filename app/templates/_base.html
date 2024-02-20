@@ -5,13 +5,22 @@
     <title>Nigel - {{ title }}</title>
   </head>
   <body>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-        <div class=" alert alert-info" role="alert">{{ message }}</div>
-        {% endfor %}
-    {% endif %}
-    {% endwith %}
-    {% include 'menu.html' %}
-    {% block content %}{% endblock %}
-</body></html>
+    <div class="flex-container">
+        <div class="menu">
+            {% include 'menu.html' %}
+        </div>
+        <div class="content">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class=" alert alert-info" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+</html>

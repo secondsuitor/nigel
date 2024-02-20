@@ -1,12 +1,12 @@
 {% extends "_base.html" %}
 {% block content %}
-<h1>Welcome to my Flask app!</h1>
-    <p>This is the index page.</p>
+<div><h1>Welcome to my Flask app!</h1>
+    <p>This is the index page.</p></div>
     {% for post in posts %}
     <div>
       <a href="{{ url_for('post', post_id=post.post_id) }}">
       <h1>{{ post.title }}</h1></a>
-      <p>{{ post.content|safe }}</p>
+      <div>{{ post.content|safe }}</div>
     </div>
     {% endfor %}
   {% endblock %}
