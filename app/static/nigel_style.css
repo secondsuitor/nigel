@@ -1,3 +1,23 @@
 html {
-    color: red;
+    color: black;
 }
+
+.flex-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    background-color: grey;
+}
+
+.flex-container > div {
+    background-color: antiquewhite;
+    margin: 10px;
+    width: 500px;
+}
+
+/* Responsive layout - makes a one column layout instead of a two-column layout */
+@media (max-width: 800px) {
+    .flex-container {
+      flex-direction: column;
+    }
+  }
