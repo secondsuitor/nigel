@@ -8,7 +8,7 @@ from app.forms import LoginForm
 import bleach # for sanitizing html
 
 # bleach settings
-allowed_tags = ['b', 'i', 'u', 'em', 'strong', 'p', 'br']
+allowed_tags = ['b', 'i', 'u', 'em', 'strong', 'p', 'br','blockquote','aside','del','template']
 allowed_attrs = {'*': ['class']}
 
 @app.route('/')
