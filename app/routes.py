@@ -4,7 +4,7 @@ from app import app
 from app.models import User
 from app import db
 from app.models import Post
-from app.forms import LoginForm
+from app.forms import LoginForm, PostForm
 import bleach # for sanitizing html
 
 # bleach settings
@@ -30,29 +30,35 @@ def post(post_id):
 @app.route('/new_post', methods=['GET', 'POST'])
 @login_required
 def new_post():
-    if request.method == 'POST':
-        title = request.form['title']
-        content = bleach.clean(request.form['content'], tags=allowed_tags, attributes=allowed_attrs)
-        post = Post(user_id=current_user.user_id, title=title, content=content)
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(title=form.title.data, content=form.content.data, user_id=current_user.user_id)
+        post.content = bleach.clean(post.content, tags=allowed_tags, attributes=allowed_attrs)
         db.session.add(post)
         db.session.commit()
+        flash('Your post is now live!')
         return redirect(url_for('home'))
-    return render_template('new_post.html')
+    return render_template('new_post.html', title='New Post', form=form)
 
 @app.route('/edit_post/<int:post_id>', methods=['GET', 'POST'])
 @login_required
 def edit_post(post_id):
-    if request.method == 'POST':
-        title = request.form['title']
-        content = bleach.clean(request.form['content'], tags=allowed_tags, attributes=allowed_attrs)
-        post_id = request.form['post_id']
-        post = Post.query.get_or_404(post_id)
-        post.title = title
-        post.content = content
-        db.session.commit()
-        return redirect(url_for('home'))
     post = Post.query.get_or_404(post_id)
-    return render_template('edit_post.html', post=post)
+    if post.user_id != current_user.user_id:
+        print('oops')
+        #abort(403)
+    form = PostForm()
+    print('Makiing a form')
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = bleach.clean(form.content.data, tags=allowed_tags, attributes=allowed_attrs)
+        db.session.commit()
+        flash('Your changes have been saved.')
+        return redirect(url_for('post', post_id=post.post_id))
+    elif request.method == 'GET':
+        form.title.data = post.title
+        form.content.data = post.content
+    return render_template('edit_post.html', title='Edit Post', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
