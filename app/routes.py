@@ -8,17 +8,12 @@ from app.forms import LoginForm, PostForm
 import bleach # for sanitizing html
 
 # bleach settings
-allowed_tags = ['b', 'i', 'u', 'em', 'strong', 'p', 'br','blockquote','aside','del','template','sup']
+allowed_tags = ['b', 'i', 'u', 'em', 'strong', 'p', 'br','blockquote','aside','del','template','sup','cite','anonotate']
 allowed_attrs = {'*': ['class']}
 
 @app.route('/')
 def home():
     posts = Post.query.all()
-    #place holder for real posts
-    #post1 = Post(title='First Post', content='Content of the first post')
-    #post2 = Post(title='Second Post', content='Content of the second post')
-    #post3 = Post(title='Third Post', content='Content of the third post')
-    #posts = [post1, post2, post3]
     title = "Home"
     return render_template('home.html', title=title, posts=posts)
 
