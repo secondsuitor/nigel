@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from app import app
 from app.models import User
 from app import db
-from app.models import Post
+from app.models import Post, Footnote, Source
 from app.forms import LoginForm, PostForm
 import bleach # for sanitizing html
 
@@ -31,7 +31,9 @@ def new_post():
         post.content = bleach.clean(post.content, tags=allowed_tags, attributes=allowed_attrs)
         db.session.add(post)
         db.session.commit()
-        flash('Your post is now live!')
+        if post.content.find('<sup>'):
+            print(post.content.count('<sup>'), 'superscript(s) found')
+            return redirect(url_for('edit_post', post_id=post.post_id))
         return redirect(url_for('home'))
     return render_template('new_post.html', title='New Post', form=form)
 
@@ -39,6 +41,7 @@ def new_post():
 @login_required
 def edit_post(post_id):
     post = Post.query.get_or_404(post_id)
+    footnotes = Footnote.query.filter_by(post_id=post_id).all()
     if post.user_id != current_user.user_id:
         print('oops')
         #abort(403)
