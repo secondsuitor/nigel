@@ -1,0 +1,39 @@
+{% extends "_base.html" %}
+{% block content %}
+<div class="columns is-centered">
+  <div class="column is-5">
+    <div class="box">
+      <h2 class="title is-4">New Category</h2>
+      <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="field">
+          {{ form.name.label(class="label") }}
+          <div class="control">
+            {{ form.name(class="input") }}
+          </div>
+          {% for error in form.name.errors %}
+          <p class="help is-danger">{{ error }}</p>
+          {% endfor %}
+        </div>
+
+        <div class="field">
+          {{ form.description.label(class="label") }}
+          <div class="control">
+            {{ form.description(class="textarea", rows=3, placeholder="Optional description of this category") }}
+          </div>
+        </div>
+
+        <div class="field is-grouped">
+          <div class="control">
+            {{ form.submit(class="button is-primary") }}
+          </div>
+          <div class="control">
+            <a href="{{ url_for('main.admin_categories') }}" class="button is-light">Cancel</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "_base.html" %}
+{% block content %}
+
+{% if not posts %}
+<p class="has-text-grey">No posts yet. Check back soon!</p>
+{% endif %}
+
+{% for post in posts %}
+<div class="box mb-5">
+  <article>
+    {% if post.featured_image %}
+    <figure class="image mb-4">
+      <a href="{{ url_for('main.post', slug=post.slug) }}">
+        <img src="{{ post.featured_image }}" alt="Featured image for {{ post.title }}" loading="lazy">
+      </a>
+    </figure>
+    {% endif %}
+
+    <h2 class="title is-4">
+      <a href="{{ url_for('main.post', slug=post.slug) }}">{{ post.title }}</a>
+    </h2>
+    <p class="subtitle is-6 has-text-grey">
+      <time datetime="{{ post.published_at.isoformat() }}">{{ post.published_at.strftime('%B %d, %Y') }}</time>
+      {% if post.categories %}
+      &middot;
+      {% for category in post.categories %}
+      <a href="{{ url_for('main.category', slug=category.slug) }}">{{ category.name }}</a>{% if not loop.last %}, {% endif %}
+      {% endfor %}
+      {% endif %}
+      {% if post.post_type and post.post_type != 'post' %}
+      &middot; <span class="tag is-light is-info is-small">{{ post.post_type }}</span>
+      {% endif %}
+    </p>
+
+    <div class="content">
+      {% if post.excerpt %}
+      {# post.excerpt is sanitised by bleach.clean() in new_post, edit_post, and import_posts #}
+      {{ post.excerpt|safe }}
+      {% else %}
+      {# post.content is sanitised by bleach.clean() in new_post, edit_post, and import_posts #}
+      {{ post.content[:300]|safe }}{% if post.content|length > 300 %}&hellip;{% endif %}
+      {% endif %}
+    </div>
+
+    <a href="{{ url_for('main.post', slug=post.slug) }}" class="button is-small is-link is-light">Read more &rarr;</a>
+  </article>
+</div>
+{% endfor %}
+
+{% endblock %}

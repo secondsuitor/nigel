@@ -1,0 +1,101 @@
+{% extends "_base.html" %}
+{% block content %}
+
+<div class="level mb-5">
+  <div class="level-left">
+    <h1 class="title level-item">Manage Posts</h1>
+  </div>
+  <div class="level-right">
+    <a href="{{ url_for('main.new_post') }}" class="button is-primary level-item">Create New Post</a>
+  </div>
+</div>
+
+<div class="table-container">
+  <table class="table is-fullwidth is-striped is-hoverable">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Categories</th>
+        <th>Published</th>
+        <th>Updated</th>
+        <th>Bluesky</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for post in posts %}
+      <tr>
+        <td>
+          <a href="{{ url_for('main.post', slug=post.slug) }}">{{ post.title }}</a>
+          {% if post.wordpress_date %}
+          <br><small class="has-text-grey">Imported from WordPress</small>
+          {% endif %}
+        </td>
+        <td>
+          <span class="tag {% if post.status == 'published' %}is-success{% else %}is-warning{% endif %}">
+            {{ post.status.title() }}
+          </span>
+        </td>
+        <td>
+          {% for category in post.categories %}
+          <span class="tag is-info is-light">{{ category.name }}</span>
+          {% endfor %}
+          {% if not post.categories %}
+          <em class="has-text-grey">None</em>
+          {% endif %}
+        </td>
+        <td>
+          {% if post.published_at %}
+          {{ post.published_at.strftime('%Y-%m-%d') }}
+          {% else %}
+          <em class="has-text-grey">—</em>
+          {% endif %}
+        </td>
+        <td>{{ post.updated_at.strftime('%Y-%m-%d') }}</td>
+        <td>
+          {% if post.bluesky_uri %}
+          <a href="https://bsky.app/profile/handle/post/{{ post.bluesky_uri.split('/')[-1] }}"
+             target="_blank" rel="noopener noreferrer" class="tag is-link"
+             title="{{ post.bluesky_uri }}">&#10003; Bluesky</a>
+          {% elif post.status == 'published' %}
+          <a href="{{ url_for('main.bluesky_post', post_id=post.id) }}" class="tag is-warning is-light">
+            Post to Bluesky
+          </a>
+          {% else %}
+          <span class="tag is-light">Draft</span>
+          {% endif %}
+        </td>
+        <td>
+          <div class="buttons are-small">
+            <a href="{{ url_for('main.edit_post', post_id=post.id) }}" class="button is-info is-light">Edit</a>
+            <form method="post" action="{{ url_for('main.publish_post', post_id=post.id) }}" style="display:inline">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="button is-warning is-light">
+                {% if post.status == 'published' %}Unpublish{% else %}Publish{% endif %}
+              </button>
+            </form>
+            <form method="post" action="{{ url_for('main.delete_post', post_id=post.id) }}" style="display:inline"
+                  onsubmit="return confirm('Delete this post?')">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="button is-danger is-light">Delete</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+
+      {% if not posts %}
+      <tr>
+        <td colspan="7" class="has-text-grey has-text-centered">
+          No posts found. <a href="{{ url_for('main.new_post') }}">Create your first post</a>
+        </td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+
+<a href="{{ url_for('main.admin') }}" class="button is-light">&larr; Back to Dashboard</a>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "_base.html" %}
+{% block content %}
+
+<div class="level mb-5">
+  <div class="level-left">
+    <h1 class="title level-item">Manage Categories</h1>
+  </div>
+  <div class="level-right">
+    <a href="{{ url_for('main.new_category') }}" class="button is-primary level-item">New Category</a>
+  </div>
+</div>
+
+{% if categories %}
+<div class="table-container">
+  <table class="table is-fullwidth is-striped is-hoverable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Slug</th>
+        <th>Description</th>
+        <th>Posts</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for category in categories %}
+      <tr>
+        <td><a href="{{ url_for('main.category', slug=category.slug) }}">{{ category.name }}</a></td>
+        <td><code>{{ category.slug }}</code></td>
+        <td>{{ category.description or '—' }}</td>
+        <td>{{ category.posts | length }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p class="has-text-grey">No categories yet. <a href="{{ url_for('main.new_category') }}">Create one.</a></p>
+{% endif %}
+
+{% endblock %}

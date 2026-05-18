@@ -1,0 +1,161 @@
+{% extends "_base.html" %}
+{% block content %}
+
+<h2 class="title is-4">Create New Post</h2>
+
+<form method="POST" enctype="multipart/form-data">
+  {{ form.hidden_tag() }}
+
+  <div class="field">
+    {{ form.title.label(class="label") }}
+    <div class="control">
+      {{ form.title(class="input") }}
+    </div>
+    {% for error in form.title.errors %}
+    <p class="help is-danger">{{ error }}</p>
+    {% endfor %}
+  </div>
+
+  <div class="field">
+    {{ form.content.label(class="label") }}
+    <div class="control">
+      {{ form.content(class="textarea", rows=20) }}
+    </div>
+    {% for error in form.content.errors %}
+    <p class="help is-danger">{{ error }}</p>
+    {% endfor %}
+  </div>
+
+  {% if form.excerpt %}
+  <div class="field">
+    {{ form.excerpt.label(class="label") }}
+    <div class="control">
+      {{ form.excerpt(class="textarea", rows=4) }}
+    </div>
+    {% for error in form.excerpt.errors %}
+    <p class="help is-danger">{{ error }}</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if form.meta_description %}
+  <div class="field">
+    {{ form.meta_description.label(class="label") }}
+    <div class="control">
+      {{ form.meta_description(class="input") }}
+    </div>
+    {% for error in form.meta_description.errors %}
+    <p class="help is-danger">{{ error }}</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="field">
+    {{ form.status.label(class="label") }}
+    <div class="control">
+      <div class="select">
+        {{ form.status() }}
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    {{ form.post_type.label(class="label") }}
+    <div class="control">
+      <div class="select">
+        {{ form.post_type(id="post_type_select") }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Review-specific fields, shown/hidden by JS based on post_type -->
+  <div id="review-fields" style="display:none;">
+    <hr>
+    <p class="has-text-weight-semibold mb-3">Review Details</p>
+    <div class="field">
+      {{ form.review_media_type.label(class="label") }}
+      <div class="control"><div class="select">{{ form.review_media_type() }}</div></div>
+    </div>
+    <div class="field">
+      {{ form.review_subject_title.label(class="label") }}
+      <div class="control">{{ form.review_subject_title(class="input") }}</div>
+    </div>
+    <div class="columns">
+      <div class="column">
+        <div class="field">
+          {{ form.review_subject_creator.label(class="label") }}
+          <div class="control">{{ form.review_subject_creator(class="input") }}</div>
+        </div>
+      </div>
+      <div class="column is-narrow">
+        <div class="field">
+          {{ form.review_subject_year.label(class="label") }}
+          <div class="control">{{ form.review_subject_year(class="input", style="width:6em") }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project-specific fields -->
+  <div id="project-fields" style="display:none;">
+    <hr>
+    <p class="has-text-weight-semibold mb-3">Project Details</p>
+    <div class="field">
+      {{ form.project_status.label(class="label") }}
+      <div class="control"><div class="select">{{ form.project_status() }}</div></div>
+    </div>
+    <div class="field">
+      {{ form.project_github_url.label(class="label") }}
+      <div class="control">{{ form.project_github_url(class="input") }}</div>
+      {% for error in form.project_github_url.errors %}
+      <p class="help is-danger">{{ error }}</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% if form.categories %}
+  <div class="field">
+    {{ form.categories.label(class="label") }}
+    <div class="control">
+      <div class="select is-multiple is-fullwidth">
+        {{ form.categories(size=6) }}
+      </div>
+    </div>
+    <p class="help">Hold Ctrl/Cmd to select multiple categories.</p>
+  </div>
+  {% endif %}
+
+  <div class="field">
+    {{ form.images.label(class="label") }}
+    <div class="control">
+      {{ form.images(class="input") }}
+    </div>
+    {% for error in form.images.errors %}
+    <p class="help is-danger">{{ error }}</p>
+    {% endfor %}
+    <p class="help">Supported formats: JPG, PNG, GIF, WebP. Select multiple files with Ctrl/Cmd.</p>
+  </div>
+
+  <div class="field is-grouped">
+    <div class="control">
+      {{ form.submit(class="button is-primary") }}
+    </div>
+    <div class="control">
+      <a href="{{ url_for('main.admin_posts') }}" class="button is-light">Cancel</a>
+    </div>
+  </div>
+</form>
+
+<script>
+(function () {
+  var select = document.getElementById('post_type_select');
+  function toggleTypeFields() {
+    document.getElementById('review-fields').style.display = (select.value === 'review') ? '' : 'none';
+    document.getElementById('project-fields').style.display = (select.value === 'project') ? '' : 'none';
+  }
+  select.addEventListener('change', toggleTypeFields);
+  toggleTypeFields();
+}());
+</script>
+
+{% endblock %}

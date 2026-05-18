@@ -1,0 +1,48 @@
+/* Blog-specific overrides on top of Bulma */
+
+/* Constrain the main container to a readable line length */
+.container {
+  max-width: 900px !important;
+}
+
+/* Post body: tighten up figure/image handling from the editor */
+.post-full .content figure {
+  margin: 1.5rem 0;
+}
+
+.post-full .content figure img {
+  border-radius: 4px;
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Featured image on home / category cards */
+.box figure.image img {
+  border-radius: 4px;
+  max-height: 300px;
+  object-fit: cover;
+  width: 100%;
+}
+
+/* Keep the navbar dark link colour readable on dark backgrounds */
+.navbar.is-dark .navbar-item,
+.navbar.is-dark .navbar-item:hover {
+  color: #d0d0d0;
+}
+
+.navbar.is-dark .navbar-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Footer: reduce the default Bulma padding */
+.footer {
+  padding: 2rem 1.5rem;
+}
+
+/* Pre blocks inside Bluesky preview */
+pre.has-background-light {
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}

@@ -1,0 +1,10 @@
+<a class="navbar-item" href="{{ url_for('main.home') }}">Home</a>
+{% if current_user.is_authenticated %}
+  <a class="navbar-item" href="{{ url_for('main.admin') }}">Admin</a>
+  <a class="navbar-item" href="{{ url_for('main.new_post') }}">New Post</a>
+  <a class="navbar-item" href="{{ url_for('main.admin_posts') }}">Posts</a>
+  <a class="navbar-item" href="{{ url_for('main.admin_categories') }}">Categories</a>
+  <a class="navbar-item" href="{{ url_for('main.logout') }}">Logout ({{ current_user.username }})</a>
+{% else %}
+  <a class="navbar-item" href="{{ url_for('main.login') }}">Login</a>
+{% endif %}

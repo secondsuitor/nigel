@@ -1,0 +1,457 @@
+{% extends "_base.html" %}
+{% block content %}
+
+<div class="buttons mb-4">
+  <a href="{{ url_for('main.admin_posts') }}" class="button is-light">&larr; Back to Posts</a>
+  <a href="{{ url_for('main.upload_image', post_id=post.id) }}" class="button is-success is-light">Add Images</a>
+  {% if post.status == 'published' %}
+  <a href="{{ url_for('main.post', slug=post.slug) }}" class="button is-info is-light" target="_blank">View Live</a>
+  {% endif %}
+</div>
+
+<h2 class="title is-4">Edit Post: &#8220;{{ post.title }}&#8221;</h2>
+
+<form method="POST">
+  {{ form.hidden_tag() }}
+
+  <div class="field">
+    {{ form.title.label(class="label") }}
+    <div class="control">
+      {{ form.title(class="input") }}
+    </div>
+    {% for error in form.title.errors %}
+    <p class="help is-danger">{{ error }}</p>
+    {% endfor %}
+  </div>
+
+  <div class="field">
+    {{ form.content.label(class="label") }}
+    <div class="control">
+      {{ form.content(class="textarea", rows=20, id="content") }}
+    </div>
+    {% for error in form.content.errors %}
+    <p class="help is-danger">{{ error }}</p>
+    {% endfor %}
+  </div>
+
+  {% if form.excerpt %}
+  <div class="field">
+    {{ form.excerpt.label(class="label") }}
+    <div class="control">
+      {{ form.excerpt(class="textarea", rows=4) }}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if form.meta_description %}
+  <div class="field">
+    {{ form.meta_description.label(class="label") }}
+    <div class="control">
+      {{ form.meta_description(class="input") }}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="field">
+    {{ form.status.label(class="label") }}
+    <div class="control">
+      <div class="select">
+        {{ form.status() }}
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    {{ form.post_type.label(class="label") }}
+    <div class="control">
+      <div class="select">
+        {{ form.post_type(id="post_type_select") }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Review-specific fields -->
+  <div id="review-fields" style="display:none;">
+    <hr>
+    <p class="has-text-weight-semibold mb-3">Review Details</p>
+    <div class="field">
+      {{ form.review_media_type.label(class="label") }}
+      <div class="control"><div class="select">{{ form.review_media_type() }}</div></div>
+    </div>
+    <div class="field">
+      {{ form.review_subject_title.label(class="label") }}
+      <div class="control">{{ form.review_subject_title(class="input") }}</div>
+    </div>
+    <div class="columns">
+      <div class="column">
+        <div class="field">
+          {{ form.review_subject_creator.label(class="label") }}
+          <div class="control">{{ form.review_subject_creator(class="input") }}</div>
+        </div>
+      </div>
+      <div class="column is-narrow">
+        <div class="field">
+          {{ form.review_subject_year.label(class="label") }}
+          <div class="control">{{ form.review_subject_year(class="input", style="width:6em") }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project-specific fields -->
+  <div id="project-fields" style="display:none;">
+    <hr>
+    <p class="has-text-weight-semibold mb-3">Project Details</p>
+    <div class="field">
+      {{ form.project_status.label(class="label") }}
+      <div class="control"><div class="select">{{ form.project_status() }}</div></div>
+    </div>
+    <div class="field">
+      {{ form.project_github_url.label(class="label") }}
+      <div class="control">{{ form.project_github_url(class="input") }}</div>
+      {% for error in form.project_github_url.errors %}
+      <p class="help is-danger">{{ error }}</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% if form.categories %}
+  <div class="field">
+    {{ form.categories.label(class="label") }}
+    <div class="control">
+      <div class="select is-multiple is-fullwidth">
+        {{ form.categories(size=6) }}
+      </div>
+    </div>
+    <p class="help">Hold Ctrl/Cmd to select multiple categories.</p>
+  </div>
+  {% endif %}
+
+  <div class="field is-grouped">
+    <div class="control">
+      {{ form.submit(class="button is-primary") }}
+    </div>
+    <div class="control">
+      <a href="{{ url_for('main.admin_posts') }}" class="button is-light">Cancel</a>
+    </div>
+  </div>
+</form>
+
+{% if post.images %}
+<div class="mt-6">
+  <h3 class="title is-5">Images ({{ post.images|length }})</h3>
+  <p class="mb-3 has-text-grey">Click <strong>Insert into post</strong> to place an image at your cursor position in the content box above.</p>
+  <div class="columns is-multiline">
+    {% for image in post.images %}
+    <div class="column is-3">
+      <div class="box">
+        <figure class="image mb-3">
+          <img src="{{ image.url }}" alt="{{ image.alt_text or 'Image' }}" style="max-height:150px; object-fit:cover; width:100%;">
+        </figure>
+        <p class="is-size-7 has-text-grey mb-1">{{ image.filename }}</p>
+        {% if image.caption %}
+        <p class="is-size-7 mb-1">{{ image.caption }}</p>
+        {% endif %}
+        {% if image.is_featured %}
+        <span class="tag is-success is-light mb-2">Featured</span>
+        {% endif %}
+        <p class="is-size-7 has-text-grey mb-2">{{ (image.file_size / 1024)|round(1) }}KB &bull; {{ image.width }}&times;{{ image.height }}</p>
+        <div class="buttons are-small">
+          <button type="button"
+                  data-url="{{ image.url }}"
+                  data-alt="{{ image.alt_text or '' }}"
+                  onclick="insertImageIntoPost(this)"
+                  class="button is-primary is-small">Insert into post</button>
+          <a href="{{ url_for('main.edit_image', image_id=image.image_id) }}" class="button is-small">Edit</a>
+          <form method="POST" action="{{ url_for('main.delete_image', image_id=image.image_id) }}" style="display:inline;"
+                onsubmit="return confirm('Delete this image?')">
+            {{ form.hidden_tag() }}
+            <button type="submit" class="button is-danger is-small">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% else %}
+<div class="notification is-light mt-5">
+  No images uploaded yet. <a href="{{ url_for('main.upload_image', post_id=post.id) }}">Upload images</a> to embed them in your post.
+</div>
+{% endif %}
+
+<script>
+function insertImageIntoPost(button) {
+  // Read the image URL and alt text from data attributes so that quotes
+  // in the values do not conflict with the HTML attribute delimiters.
+  var url = button.getAttribute('data-url');
+  var alt = button.getAttribute('data-alt') || '';
+
+  // Wrap in a figure so the image is block-level and can be styled via CSS.
+  var tag = '<figure><img src="' + url + '" alt="' + alt + '" loading="lazy"></figure>';
+
+  var textarea = document.getElementById('content');
+  if (!textarea) {
+    alert('Could not find the content field.');
+    return;
+  }
+
+  var start = textarea.selectionStart;
+  var end   = textarea.selectionEnd;
+  textarea.value = textarea.value.substring(0, start) + tag + textarea.value.substring(end);
+
+  // Move the cursor to just after the inserted snippet.
+  var newPos = start + tag.length;
+  textarea.selectionStart = newPos;
+  textarea.selectionEnd   = newPos;
+  textarea.focus();
+}
+
+// Show/hide post-type-specific fields based on the type select.
+(function () {
+  var select = document.getElementById('post_type_select');
+  if (!select) { return; }
+  function toggleTypeFields() {
+    document.getElementById('review-fields').style.display = (select.value === 'review') ? '' : 'none';
+    document.getElementById('project-fields').style.display = (select.value === 'project') ? '' : 'none';
+  }
+  select.addEventListener('change', toggleTypeFields);
+  toggleTypeFields();
+}());
+
+function insertFootnoteMarker(nextNumber) {
+  // Insert a [^N] footnote marker at the textarea cursor position.
+  var marker = '[^' + nextNumber + ']';
+  var textarea = document.getElementById('content');
+  if (!textarea) { return; }
+  var start = textarea.selectionStart;
+  var end   = textarea.selectionEnd;
+  textarea.value = textarea.value.substring(0, start) + marker + textarea.value.substring(end);
+  var newPos = start + marker.length;
+  textarea.selectionStart = newPos;
+  textarea.selectionEnd   = newPos;
+  textarea.focus();
+}
+</script>
+
+{# ------------------------------------------------------------------ #}
+{# Footnotes panel                                                      #}
+{# ------------------------------------------------------------------ #}
+<div id="footnotes" class="mt-6">
+  <h3 class="title is-5">Footnotes</h3>
+  <p class="mb-3 has-text-grey is-size-7">
+    Click <strong>Insert [^N]</strong> to place a marker in the content above, then fill in the note text below.
+  </p>
+
+  {% if footnotes %}
+  {% for fn in footnotes %}
+  <div class="box mb-3">
+    <div class="is-flex is-justify-content-space-between is-align-items-center mb-2">
+      <span class="tag is-light">[^{{ loop.index }}]</span>
+      <form method="POST" action="{{ url_for('main.delete_footnote', footnote_id=fn.footnote_id) }}"
+            style="display:inline;" onsubmit="return confirm('Delete this footnote?')">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit" class="button is-danger is-small is-light">Delete</button>
+      </form>
+    </div>
+    <form method="POST" action="{{ url_for('main.edit_footnote', footnote_id=fn.footnote_id) }}">
+      {{ form.hidden_tag() }}
+      <div class="field">
+        <label class="label is-small">Note</label>
+        <div class="control">
+          <textarea name="content" class="textarea is-small" rows="2">{{ fn.content }}</textarea>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <div class="field">
+            <label class="label is-small">Source (optional)</label>
+            <div class="control">
+              <div class="select is-small is-fullwidth">
+                <select name="source_id">
+                  <option value="0">— none —</option>
+                  {% for source in post.sources %}
+                  <option value="{{ source.source_id }}"{% if fn.source_id == source.source_id %} selected{% endif %}>
+                    {{ source.author }}: {{ source.title }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label is-small">Cross-reference post (optional)</label>
+            <div class="control">
+              <div class="select is-small is-fullwidth">
+                <select name="ref_post_id">
+                  <option value="0">— none —</option>
+                  {% for p in all_posts %}
+                  <option value="{{ p.id }}"{% if fn.ref_post_id == p.id %} selected{% endif %}>
+                    {{ p.title }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="button is-primary is-small">Save</button>
+    </form>
+  </div>
+  {% endfor %}
+  {% else %}
+  <p class="has-text-grey is-size-7">No footnotes yet.</p>
+  {% endif %}
+
+  {# Add footnote form #}
+  <div class="box mt-4 has-background-light">
+    <p class="has-text-weight-semibold mb-3">
+      Add footnote
+      <button type="button"
+              class="button is-primary is-small ml-3"
+              onclick="insertFootnoteMarker({{ (footnotes|length) + 1 }})">
+        Insert [^{{ (footnotes|length) + 1 }}] at cursor
+      </button>
+    </p>
+    <form method="POST" action="{{ url_for('main.add_footnote', post_id=post.id) }}">
+      {{ form.hidden_tag() }}
+      <div class="field">
+        <label class="label is-small">Note</label>
+        <div class="control">
+          <textarea name="content" class="textarea is-small" rows="2" placeholder="Footnote text…" required></textarea>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <div class="field">
+            <label class="label is-small">Source (optional)</label>
+            <div class="control">
+              <div class="select is-small is-fullwidth">
+                <select name="source_id">
+                  <option value="0">— none —</option>
+                  {% for source in post.sources %}
+                  <option value="{{ source.source_id }}">{{ source.author }}: {{ source.title }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label is-small">Cross-reference post (optional)</label>
+            <div class="control">
+              <div class="select is-small is-fullwidth">
+                <select name="ref_post_id">
+                  <option value="0">— none —</option>
+                  {% for p in all_posts %}
+                  <option value="{{ p.id }}">{{ p.title }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="button is-success is-small">Add footnote</button>
+    </form>
+  </div>
+</div>
+
+{# ------------------------------------------------------------------ #}
+{# Sources panel                                                        #}
+{# ------------------------------------------------------------------ #}
+<div id="sources" class="mt-6">
+  <h3 class="title is-5">Sources</h3>
+  <p class="mb-3 has-text-grey is-size-7">
+    Add bibliographic references here, then link them to individual footnotes above.
+  </p>
+
+  {% if post.sources %}
+  {% for source in post.sources %}
+  <div class="box mb-2">
+    <div class="is-flex is-justify-content-space-between is-align-items-flex-start">
+      <div>
+        <p><strong>{{ source.author }}</strong>. <em>{{ source.title }}</em>
+        {% if source.year %} ({{ source.year }}){% endif %}
+        {% if source.publisher %} — {{ source.publisher }}{% endif %}
+        {% if source.page_range %} pp. {{ source.page_range }}{% endif %}
+        </p>
+        {% if source.url %}
+        <p class="is-size-7"><a href="{{ source.url }}" target="_blank" rel="noopener">{{ source.url }}</a></p>
+        {% endif %}
+        {% if source.isbn %}
+        <p class="is-size-7 has-text-grey">ISBN: {{ source.isbn }}</p>
+        {% endif %}
+      </div>
+      <form method="POST" action="{{ url_for('main.delete_source', source_id=source.source_id) }}"
+            style="display:inline;flex-shrink:0;margin-left:0.5rem;"
+            onsubmit="return confirm('Delete this source?')">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit" class="button is-danger is-small is-light">Delete</button>
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+  {% else %}
+  <p class="has-text-grey is-size-7">No sources yet.</p>
+  {% endif %}
+
+  {# Add source form #}
+  <div class="box mt-4 has-background-light">
+    <p class="has-text-weight-semibold mb-3">Add source</p>
+    <form method="POST" action="{{ url_for('main.add_source', post_id=post.id) }}">
+      {{ form.hidden_tag() }}
+      <div class="columns is-multiline">
+        <div class="column is-half">
+          <div class="field">
+            <label class="label is-small">Author *</label>
+            <div class="control"><input name="author" class="input is-small" required></div>
+          </div>
+        </div>
+        <div class="column is-half">
+          <div class="field">
+            <label class="label is-small">Title *</label>
+            <div class="control"><input name="title" class="input is-small" required></div>
+          </div>
+        </div>
+        <div class="column is-half">
+          <div class="field">
+            <label class="label is-small">Publisher</label>
+            <div class="control"><input name="publisher" class="input is-small"></div>
+          </div>
+        </div>
+        <div class="column is-narrow">
+          <div class="field">
+            <label class="label is-small">Year</label>
+            <div class="control"><input name="year" type="number" class="input is-small" style="width:6em"></div>
+          </div>
+        </div>
+        <div class="column is-narrow">
+          <div class="field">
+            <label class="label is-small">Pages</label>
+            <div class="control"><input name="page_range" class="input is-small" style="width:7em" placeholder="e.g. 23-45"></div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label is-small">URL</label>
+            <div class="control"><input name="url" class="input is-small" type="url" placeholder="https://…"></div>
+          </div>
+        </div>
+        <div class="column is-narrow">
+          <div class="field">
+            <label class="label is-small">ISBN</label>
+            <div class="control"><input name="isbn" class="input is-small" style="width:10em"></div>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="button is-success is-small">Add source</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

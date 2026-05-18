@@ -1,0 +1,83 @@
+{% extends "_base.html" %}
+{% block content %}
+<div class="admin-form">
+  <h1>Two-Factor Authentication</h1>
+
+  {% if has_2fa %}
+
+    <p class="success-note">2FA is currently <strong>enabled</strong> on your account.</p>
+
+    <h2>Disable 2FA</h2>
+    <p>Removing 2FA will make your account accessible with only a password.
+    Only do this if you are replacing your authenticator app.</p>
+
+    <form method="POST" action="{{ url_for('main.disable_2fa') }}" novalidate>
+      {{ form.hidden_tag() }}
+      <div class="form-actions">
+        <button type="submit" class="button danger"
+                onclick="return confirm('Are you sure you want to disable 2FA?')">
+          Disable 2FA
+        </button>
+        <a href="{{ url_for('main.admin') }}" class="button">Cancel</a>
+      </div>
+    </form>
+
+  {% else %}
+
+    <p>Scan this QR code with an authenticator app such as
+    <strong>Aegis</strong>, <strong>Google Authenticator</strong>, or
+    <strong>1Password</strong>, then enter the 6-digit code to confirm
+    setup.</p>
+
+    <div class="qr-block">
+      <img src="{{ qr_data_uri }}" alt="2FA QR code" width="220" height="220">
+    </div>
+
+    <details class="manual-key">
+      <summary>Can't scan? Enter the key manually</summary>
+      <code>{{ manual_key }}</code>
+    </details>
+
+    <h2>Confirm setup</h2>
+    <form method="POST" novalidate>
+      {{ form.hidden_tag() }}
+      <div class="form-group">
+        {{ form.code.label }}
+        {{ form.code(class="form-control", autofocus=true) }}
+        {% if form.code.errors %}
+          <ul class="errors">
+            {% for error in form.code.errors %}<li>{{ error }}</li>{% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+      <div class="form-actions">
+        {{ form.submit(class="button primary") }}
+        <a href="{{ url_for('main.admin') }}" class="button">Cancel</a>
+      </div>
+    </form>
+
+  {% endif %}
+</div>
+
+<style>
+  .qr-block { margin: 1.5rem 0; }
+  .success-note { color: #2a7; font-weight: bold; }
+  .manual-key { margin: 1rem 0; }
+  .manual-key code {
+    display: block;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    padding: 0.5rem;
+    background: #f4f4f4;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+    word-break: break-all;
+  }
+  .button.danger {
+    background: #c0392b;
+    color: #fff;
+    border-color: #a93226;
+  }
+  .button.danger:hover { background: #a93226; }
+</style>
+{% endblock %}

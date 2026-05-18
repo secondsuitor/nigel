@@ -1,0 +1,137 @@
+{% extends "_base.html" %}
+{% block content %}
+<article class="post-full">
+  <header class="mb-5">
+    <h1 class="title">{{ post.title }}</h1>
+    <p class="subtitle is-6 has-text-grey">
+      <time datetime="{{ post.published_at.isoformat() }}">{{ post.published_at.strftime('%B %d, %Y') }}</time>
+      {% if post.categories %}
+      &middot; in
+      {% for category in post.categories %}
+      <a href="{{ url_for('main.category', slug=category.slug) }}">{{ category.name }}</a>{% if not loop.last %}, {% endif %}
+      {% endfor %}
+      {% endif %}
+      {% if post.post_type and post.post_type != 'post' %}
+      &middot; <span class="tag is-light is-info">{{ post.post_type }}</span>
+      {% endif %}
+    </p>
+
+    {# Review-specific metadata header #}
+    {% if post.post_type == 'review' and post.review_meta %}
+    {% set meta = post.review_meta %}
+    <div class="box has-background-light p-4 mb-4">
+      <p class="has-text-weight-semibold mb-1">
+        <span class="tag is-warning is-light mr-2">{{ meta.media_type }}</span>{{ meta.subject_title }}
+      </p>
+      {% if meta.subject_creator or meta.subject_year %}
+      <p class="has-text-grey is-size-7">
+        {% if meta.subject_creator %}{{ meta.subject_creator }}{% endif %}
+        {% if meta.subject_creator and meta.subject_year %} &middot; {% endif %}
+        {% if meta.subject_year %}{{ meta.subject_year }}{% endif %}
+      </p>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {# Project-specific metadata header #}
+    {% if post.post_type == 'project' and post.project_meta %}
+    {% set meta = post.project_meta %}
+    <div class="box has-background-light p-4 mb-4">
+      {% if meta.status == 'in_progress' %}
+      <span class="tag is-warning">In Progress</span>
+      {% elif meta.status == 'completed' %}
+      <span class="tag is-success">Completed</span>
+      {% elif meta.status == 'abandoned' %}
+      <span class="tag is-grey">Abandoned</span>
+      {% endif %}
+      {% if meta.github_url %}
+      &nbsp; <a href="{{ meta.github_url }}" target="_blank" rel="noopener">Source on GitHub &rarr;</a>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {% if post.meta_description %}
+    <p class="has-text-grey-dark"><em>{{ post.meta_description }}</em></p>
+    {% endif %}
+  </header>
+
+  <div class="content">
+    {# post.content is sanitised by bleach.clean() in new_post, edit_post, and import_posts #}
+    {{ post.content|render_footnote_markers|safe }}
+  </div>
+
+  {% if post.footnotes %}
+  <section class="mt-6">
+    <h3 class="title is-5">Footnotes</h3>
+    <div class="content">
+      <ol>
+        {% for footnote in post.footnotes|sort(attribute='sort_order') %}
+        <li id="fn-{{ loop.index }}">
+          {# footnote.content is sanitised by bleach.clean() in add_footnote and edit_footnote #}
+          {{ footnote.content|safe }}
+          {% if footnote.source %}
+          <div class="has-text-grey is-size-7 mt-1">
+            Source: {{ footnote.source.author }}. <em>{{ footnote.source.title }}</em>
+            {% if footnote.source.publisher %} ({{ footnote.source.publisher }}{% endif %}
+            {% if footnote.source.year %}, {{ footnote.source.year }}{% endif %}
+            {% if footnote.source.publisher %}){% endif %}
+            {% if footnote.source.page_range %}, pp. {{ footnote.source.page_range }}{% endif %}
+            {% if footnote.source.url %}. <a href="{{ footnote.source.url }}" target="_blank" rel="noopener">Link</a>{% endif %}
+          </div>
+          {% endif %}
+          {% if footnote.ref_post %}
+          <div class="has-text-grey is-size-7 mt-1">
+            See also: <a href="{{ url_for('main.post', slug=footnote.ref_post.slug) }}">{{ footnote.ref_post.title }}</a>
+          </div>
+          {% endif %}
+          <a href="#fnref-{{ loop.index }}" class="is-size-7 has-text-grey ml-2" title="Back to text">&#8617;</a>
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if post.sources %}
+  <section class="mt-5">
+    <h3 class="title is-5">Sources</h3>
+    <div class="content">
+      <ul>
+        {% for source in post.sources %}
+        <li>
+          {{ source.author }}. <em>{{ source.title }}</em>
+          {% if source.publisher %} ({{ source.publisher }}{% endif %}
+          {% if source.year %}, {{ source.year }}{% endif %}
+          {% if source.publisher %}){% endif %}
+          {% if source.page_range %}, pp. {{ source.page_range }}{% endif %}
+          {% if source.url %}. <a href="{{ source.url }}" target="_blank" rel="noopener">Link</a>{% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+  {% endif %}
+
+  {# Posts that have cross-referenced this one in their footnotes #}
+  {% if post.referencing_footnotes %}
+  {% set citing_posts = post.referencing_footnotes|map(attribute='post')|unique(attribute='post_id')|list %}
+  {% if citing_posts %}
+  <section class="mt-5">
+    <h3 class="title is-6 has-text-grey">Referenced by</h3>
+    <ul class="content">
+      {% for citing_post in citing_posts %}
+      <li><a href="{{ url_for('main.post', slug=citing_post.slug) }}">{{ citing_post.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+  {% endif %}
+
+  <nav class="mt-6" style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+    <a href="{{ url_for('main.home') }}" class="button is-light">&larr; Back to posts</a>
+    {% if current_user.is_authenticated %}
+    <a href="{{ url_for('main.edit_post', post_id=post.id) }}" class="button is-warning is-light">Edit post</a>
+    {% endif %}
+  </nav>
+</article>
+{% endblock %}

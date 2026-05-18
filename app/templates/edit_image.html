@@ -1,0 +1,63 @@
+{% extends "_base.html" %}
+{% block content %}
+
+<div class="buttons mb-4">
+  <a href="{{ url_for('main.edit_post', post_id=image.post_id) }}" class="button is-light">&larr; Back to Post</a>
+</div>
+
+<h2 class="title is-4">Edit Image</h2>
+
+<div class="columns">
+  <div class="column is-narrow">
+    <figure class="image mb-3">
+      <img src="{{ image.url }}" alt="{{ image.alt_text or 'Image' }}" style="max-width:300px; max-height:300px; object-fit:contain;">
+    </figure>
+    <p class="is-size-7 has-text-grey">{{ image.filename }}</p>
+    <p class="is-size-7 has-text-grey">{{ (image.file_size / 1024)|round(1) }}KB &bull; {{ image.width }}&times;{{ image.height }}</p>
+  </div>
+
+  <div class="column">
+    <form method="POST">
+      {{ form.hidden_tag() }}
+
+      <div class="field">
+        {{ form.alt_text.label(class="label") }}
+        <div class="control">
+          {{ form.alt_text(class="input") }}
+        </div>
+        {% for error in form.alt_text.errors %}
+        <p class="help is-danger">{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <div class="field">
+        {{ form.caption.label(class="label") }}
+        <div class="control">
+          {{ form.caption(class="textarea", rows=3) }}
+        </div>
+        {% for error in form.caption.errors %}
+        <p class="help is-danger">{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <label class="checkbox">
+            {{ form.is_featured() }} {{ form.is_featured.label.text }}
+          </label>
+        </div>
+      </div>
+
+      <div class="field is-grouped">
+        <div class="control">
+          {{ form.submit(class="button is-primary") }}
+        </div>
+        <div class="control">
+          <a href="{{ url_for('main.edit_post', post_id=image.post_id) }}" class="button is-light">Cancel</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "_base.html" %}
+{% block content %}
+<div class="admin-form">
+  <h1>Import Posts</h1>
+
+  <p>Upload a <code>posts_export.json</code> file produced by the Export function.
+  Existing posts (matched by WordPress ID or slug) will be skipped — the import
+  is safe to run more than once.</p>
+
+  <form method="POST" enctype="multipart/form-data" novalidate>
+    {{ form.hidden_tag() }}
+
+    <div class="form-group">
+      {{ form.json_file.label }}
+      {{ form.json_file(accept=".json") }}
+      {% if form.json_file.errors %}
+        <ul class="errors">
+          {% for error in form.json_file.errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+
+    <div class="form-actions">
+      {{ form.submit(class="button primary") }}
+      <a href="{{ url_for('main.admin') }}" class="button">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

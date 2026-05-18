@@ -1,0 +1,262 @@
+{% extends "_base.html" %}
+{% block content %}
+
+<h2 class="title is-4">Upload Image for &#8220;{{ post.title }}&#8221;</h2>
+
+<div class="box mb-5">
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+
+    <div class="field">
+      {{ form.image_file.label(class="label") }}
+      <div class="control">
+        {{ form.image_file(class="input") }}
+      </div>
+      {% for error in form.image_file.errors %}
+      <p class="help is-danger">{{ error }}</p>
+      {% endfor %}
+      <p class="help">Supported formats: JPG, PNG, GIF, WebP. Max size: 5MB</p>
+    </div>
+
+    <div class="field">
+      {{ form.alt_text.label(class="label") }}
+      <div class="control">
+        {{ form.alt_text(class="input") }}
+      </div>
+      {% for error in form.alt_text.errors %}
+      <p class="help is-danger">{{ error }}</p>
+      {% endfor %}
+      <p class="help">Describe the image for screen readers and accessibility.</p>
+    </div>
+
+    <div class="field">
+      {{ form.caption.label(class="label") }}
+      <div class="control">
+        {{ form.caption(class="input") }}
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="control">
+        <label class="checkbox">
+          {{ form.is_featured() }} {{ form.is_featured.label.text }}
+        </label>
+      </div>
+    </div>
+
+    <div class="field is-grouped">
+      <div class="control">
+        {{ form.submit(class="button is-primary") }}
+      </div>
+      <div class="control">
+        <a href="{{ url_for('main.edit_post', post_id=post.id) }}" class="button is-light">Cancel</a>
+      </div>
+    </div>
+  </form>
+</div>
+
+{% if post.images %}
+<h3 class="title is-5">Existing Images</h3>
+<div class="columns is-multiline">
+  {% for image in post.images %}
+  <div class="column is-3">
+    <div class="box">
+      <figure class="image mb-3">
+        <img src="{{ image.url }}" alt="{{ image.alt_text or 'Image' }}" style="max-height:150px; object-fit:cover; width:100%;">
+      </figure>
+      <p class="is-size-7 has-text-grey">{{ image.filename }}</p>
+      {% if image.caption %}
+      <p class="is-size-7">{{ image.caption }}</p>
+      {% endif %}
+      {% if image.is_featured %}
+      <span class="tag is-success is-light">Featured</span>
+      {% endif %}
+      <div class="buttons are-small mt-2">
+        <a href="{{ url_for('main.edit_image', image_id=image.image_id) }}" class="button is-small">Edit</a>
+        <form method="POST" action="{{ url_for('main.delete_image', image_id=image.image_id) }}" style="display:inline;"
+              onsubmit="return confirm('Are you sure you want to delete this image?')">
+          {{ form.hidden_tag() }}
+          <button type="submit" class="button is-danger is-small">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<a href="{{ url_for('main.edit_post', post_id=post.id) }}" class="button is-light mt-4">&larr; Back to edit post</a>
+
+{% endblock %}
+                    {% if image.caption %}
+                        <p class="caption">{{ image.caption }}</p>
+                    {% endif %}
+                    {% if image.is_featured %}
+                        <span class="featured-badge">Featured</span>
+                    {% endif %}
+                    <div class="image-actions">
+                        <a href="{{ url_for('main.edit_image', image_id=image.image_id) }}" class="btn btn-sm">Edit</a>
+                        <form method="POST" action="{{ url_for('main.delete_image', image_id=image.image_id) }}" style="display: inline;" 
+                              onsubmit="return confirm('Are you sure you want to delete this image?')">
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.upload-image-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.form-section {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+.form-control[type="file"] {
+    padding: 0.25rem;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-help {
+    display: block;
+    margin-top: 0.25rem;
+    color: #666;
+    font-size: 0.875rem;
+}
+
+.form-errors {
+    margin-top: 0.25rem;
+}
+
+.error {
+    color: #dc3545;
+    font-size: 0.875rem;
+}
+
+.form-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.875rem;
+}
+
+.btn-primary {
+    background: #007bff;
+    color: white;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+}
+
+.existing-images {
+    margin-top: 2rem;
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.image-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+}
+
+.thumbnail {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    display: block;
+}
+
+.image-info {
+    padding: 0.75rem;
+}
+
+.filename {
+    font-weight: bold;
+    margin: 0 0 0.5rem 0;
+    font-size: 0.875rem;
+}
+
+.caption {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.featured-badge {
+    background: #28a745;
+    color: white;
+    padding: 0.125rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.image-actions {
+    margin-top: 0.75rem;
+    display: flex;
+    gap: 0.25rem;
+}
+</style>
+{% endblock %}

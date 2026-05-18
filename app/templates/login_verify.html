@@ -1,0 +1,31 @@
+{% extends "_base.html" %}
+{% block content %}
+<div class="columns is-centered">
+  <div class="column is-4">
+    <div class="box">
+      <h1 class="title is-4">Two-Factor Authentication</h1>
+      <p class="mb-4">Enter the 6-digit code from your authenticator app.</p>
+      <form method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="field">
+          {{ form.code.label(class="label") }}
+          <div class="control">
+            {{ form.code(class="input", autofocus=true) }}
+          </div>
+          {% for error in form.code.errors %}
+          <p class="help is-danger">{{ error }}</p>
+          {% endfor %}
+        </div>
+        <div class="field is-grouped">
+          <div class="control">
+            {{ form.submit(class="button is-primary") }}
+          </div>
+          <div class="control">
+            <a href="{{ url_for('main.login') }}" class="button is-light">Back to login</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

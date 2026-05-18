@@ -1,0 +1,40 @@
+{% extends "_base.html" %}
+{% block content %}
+
+<header class="mb-5">
+  <h1 class="title">{{ category.name }}</h1>
+  {% if category.description %}
+  <p class="subtitle has-text-grey">{{ category.description }}</p>
+  {% endif %}
+</header>
+
+{% if not posts %}
+<p class="has-text-grey">No posts in this category yet.</p>
+{% endif %}
+
+{% for post in posts %}
+<div class="box mb-4">
+  <article>
+    <h2 class="title is-4">
+      <a href="{{ url_for('main.post', slug=post.slug) }}">{{ post.title }}</a>
+    </h2>
+    <p class="subtitle is-6 has-text-grey">
+      <time datetime="{{ post.published_at.isoformat() }}">{{ post.published_at.strftime('%B %d, %Y') }}</time>
+    </p>
+    <div class="content">
+      {% if post.excerpt %}
+      {# post.excerpt is sanitised by bleach.clean() in new_post, edit_post, and import_posts #}
+      {{ post.excerpt|safe }}
+      {% else %}
+      {# post.content is sanitised by bleach.clean() in new_post, edit_post, and import_posts #}
+      {{ post.content[:300]|safe }}{% if post.content|length > 300 %}&hellip;{% endif %}
+      {% endif %}
+    </div>
+    <a href="{{ url_for('main.post', slug=post.slug) }}" class="button is-small is-link is-light">Read more &rarr;</a>
+  </article>
+</div>
+{% endfor %}
+
+<a href="{{ url_for('main.home') }}" class="button is-light mt-4">&larr; Back to all posts</a>
+
+{% endblock %}

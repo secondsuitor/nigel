@@ -1,0 +1,58 @@
+{% extends "_base.html" %}
+{% block content %}
+
+<h1 class="title">Admin Dashboard</h1>
+
+<div class="columns mb-5">
+  <div class="column">
+    <div class="box has-text-centered">
+      <p class="title is-2">{{ published_count }}</p>
+      <p class="subtitle is-6 has-text-grey">Published Posts</p>
+    </div>
+  </div>
+  <div class="column">
+    <div class="box has-text-centered">
+      <p class="title is-2">{{ draft_count }}</p>
+      <p class="subtitle is-6 has-text-grey">Draft Posts</p>
+    </div>
+  </div>
+  <div class="column">
+    <div class="box has-text-centered">
+      <p class="title is-2">{{ total_posts }}</p>
+      <p class="subtitle is-6 has-text-grey">Total Posts</p>
+    </div>
+  </div>
+  <div class="column">
+    <div class="box has-text-centered">
+      <p class="title is-2">{{ categories|length }}</p>
+      <p class="subtitle is-6 has-text-grey">Categories</p>
+    </div>
+  </div>
+</div>
+
+<h2 class="title is-5">Quick Actions</h2>
+<div class="buttons mb-5">
+  <a href="{{ url_for('main.new_post') }}" class="button is-primary">Create New Post</a>
+  <a href="{{ url_for('main.admin_posts') }}" class="button is-light">Manage Posts</a>
+  <a href="{{ url_for('main.admin_categories') }}" class="button is-light">Manage Categories</a>
+  <a href="{{ url_for('main.new_category') }}" class="button is-light">Create Category</a>
+  <a href="{{ url_for('main.change_password') }}" class="button is-light">Change Password</a>
+  <a href="{{ url_for('main.manage_2fa') }}" class="button is-light">
+    {% if current_user.has_2fa %}Manage 2FA{% else %}Set Up 2FA{% endif %}
+  </a>
+  <a href="{{ url_for('main.export_posts') }}" class="button is-light">Export Posts (JSON)</a>
+  <a href="{{ url_for('main.import_posts') }}" class="button is-light">Import Posts (JSON)</a>
+</div>
+
+{% if categories %}
+<h2 class="title is-5">Categories</h2>
+<div class="tags">
+  {% for category in categories %}
+  <a href="{{ url_for('main.category', slug=category.slug) }}" class="tag is-info is-light is-medium">
+    {{ category.name }} ({{ category.posts|length }})
+  </a>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}

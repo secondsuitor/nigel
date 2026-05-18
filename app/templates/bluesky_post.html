@@ -1,0 +1,59 @@
+{% extends "_base.html" %}
+{% block content %}
+<div class="bluesky-post">
+  <header>
+    <h1>Post to Bluesky</h1>
+    <p class="subtitle">
+      <a href="{{ url_for('main.post', slug=post.slug) }}">{{ post.title }}</a>
+    </p>
+  </header>
+
+  {% if post.bluesky_uri %}
+  {# Post has already been sent — show the record link and offer to re-post. #}
+  <div class="already-posted">
+    <p>
+      This post has already been sent to Bluesky.
+      {% if bsky_handle %}
+      <a href="https://bsky.app/profile/{{ bsky_handle }}/post/{{ post.bluesky_uri.split('/')[-1] }}"
+         target="_blank" rel="noopener noreferrer">View on Bluesky ↗</a>
+      {% else %}
+      <a href="https://bsky.app" target="_blank" rel="noopener noreferrer">View on Bluesky ↗</a>
+      {% endif %}
+    </p>
+    <p class="muted">AT URI: <code>{{ post.bluesky_uri }}</code></p>
+  </div>
+  <hr>
+  <p>To send a new post (e.g. an update announcement), fill in the custom text below and confirm.</p>
+  {% endif %}
+
+  {# Preview of what will be sent. #}
+  <section class="preview">
+    <h2>Preview</h2>
+    <pre class="post-preview">{{ preview_text }}</pre>
+    <p class="char-count">
+      {{ preview_text | length }} / 300 graphemes
+    </p>
+  </section>
+
+  {# Confirmation form. #}
+  <form method="post" action="{{ url_for('main.bluesky_post', post_id=post.id) }}">
+    {{ form.hidden_tag() }}
+
+    <div class="form-group">
+      {{ form.custom_text.label }}
+      {{ form.custom_text(class="form-control") }}
+      <small class="form-text">
+        Max 260 characters.  The canonical post URL is always appended automatically.
+      </small>
+      {% for error in form.custom_text.errors %}
+      <span class="field-error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-actions">
+      {{ form.submit(class="button primary") }}
+      <a href="{{ url_for('main.admin_posts') }}" class="button">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
