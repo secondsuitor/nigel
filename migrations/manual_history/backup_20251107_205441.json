@@ -1,0 +1,76 @@
+{
+  "timestamp": "2025-11-08T04:54:41.244376",
+  "posts": [
+    {
+      "post_id": 1,
+      "user_id": 1,
+      "parent_id": null,
+      "title": "Old Schema Post 1",
+      "content": "This is content from the old schema"
+    },
+    {
+      "post_id": 2,
+      "user_id": 1,
+      "parent_id": null,
+      "title": "Old Schema Post 2",
+      "content": "Another post with old schema structure"
+    },
+    {
+      "post_id": 3,
+      "user_id": 1,
+      "parent_id": 1,
+      "title": "Reply Post",
+      "content": "This is a reply to post 1"
+    }
+  ],
+  "users": [
+    {
+      "user_id": 1,
+      "username": "admin",
+      "password_hash": "hash123",
+      "email": "admin@example.com"
+    }
+  ],
+  "sources": [
+    {
+      "source_id": 1,
+      "post_id": 1,
+      "location": "Chapter 5",
+      "page": 42,
+      "author": "John Smith",
+      "title": "Test Book",
+      "publisher": "Test Press",
+      "year": 2023
+    },
+    {
+      "source_id": 2,
+      "post_id": 2,
+      "location": "Article",
+      "page": 15,
+      "author": "Jane Doe",
+      "title": "Test Article",
+      "publisher": "Test Journal",
+      "year": 2024
+    }
+  ],
+  "footnotes": [
+    {
+      "footnote_id": 1,
+      "post_id": 1,
+      "content": "This is a footnote from old schema",
+      "source_id": 1
+    },
+    {
+      "footnote_id": 2,
+      "post_id": 2,
+      "content": "Another footnote with source",
+      "source_id": 2
+    },
+    {
+      "footnote_id": 3,
+      "post_id": 1,
+      "content": "Footnote without source",
+      "source_id": null
+    }
+  ]
+}

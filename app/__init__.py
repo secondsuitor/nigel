@@ -106,9 +106,5 @@ def create_app():
     )
   app.jinja_env.filters['render_footnote_markers'] = render_footnote_markers
 
-  # Create any missing tables on startup.
-  # In production, run Flask-Migrate instead of relying on this.
-  with app.app_context():
-    db.create_all()
 
   return app

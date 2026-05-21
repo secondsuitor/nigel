@@ -6,7 +6,7 @@ Run once after deploying to production:
   ADMIN_PASSWORD=<strong-password> python create_admin.py
 
 What it does (all steps are idempotent — safe to re-run):
-  1. Creates all database tables if they do not already exist.
+  1. Runs all pending Alembic migrations (creates/updates the schema).
   2. Creates the admin user if no user named 'admin' exists yet.
 
 The password must be supplied via the ADMIN_PASSWORD environment variable.
@@ -26,7 +26,7 @@ from app.models import User
 
 def bootstrap():
     """
-    Initialise the database schema and create the admin user.
+    Apply pending migrations and create the admin user.
 
     Steps that are already complete are skipped without error so this
     script can be re-run safely on subsequent deploys.
@@ -41,10 +41,11 @@ def bootstrap():
     app = create_app()
 
     with app.app_context():
-        # Step 1: create tables that do not yet exist.
-        # db.create_all() is a no-op for tables that are already present,
-        # so existing data is never touched.
-        db.create_all()
+        # Step 1: apply all pending Alembic migrations.
+        # upgrade() is a no-op when the DB is already at the latest revision,
+        # so running this script again on a live database is safe.
+        from flask_migrate import upgrade
+        upgrade()
         print('Database schema: OK')
 
         # Step 2: create the admin user if it does not already exist.
