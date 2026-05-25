@@ -106,5 +106,28 @@ def create_app():
     )
   app.jinja_env.filters['render_footnote_markers'] = render_footnote_markers
 
+  @app.after_request
+  def set_security_headers(response):
+    """
+    Apply HTTP security response headers to every response.
+
+    Content-Security-Policy restricts where scripts, styles, and images may
+    load from.  The policy is intentionally strict because all content is
+    served from the same origin.
+    X-Content-Type-Options prevents MIME-type sniffing on uploaded files.
+    X-Frame-Options blocks the site from being embedded in iframes.
+    Referrer-Policy limits referrer header leakage to cross-origin requests.
+    """
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    response.headers['Content-Security-Policy'] = (
+      "default-src 'self'; "
+      "script-src 'self'; "
+      "style-src 'self'; "
+      "img-src 'self' data:; "
+      "frame-ancestors 'none';"
+    )
+    return response
 
   return app

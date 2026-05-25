@@ -106,6 +106,30 @@ class TestCsrf:
 # admin_required: inactive user is rejected even with a valid session
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# Security response headers
+# ---------------------------------------------------------------------------
+
+class TestSecurityHeaders:
+  def test_security_headers_present_on_public_page(self, client):
+    """Every response must carry the four security headers."""
+    response = client.get('/')
+    assert response.headers.get('X-Content-Type-Options') == 'nosniff'
+    assert response.headers.get('X-Frame-Options') == 'SAMEORIGIN'
+    assert 'Referrer-Policy' in response.headers
+    assert 'Content-Security-Policy' in response.headers
+
+  def test_csp_restricts_frame_ancestors(self, client):
+    """Content-Security-Policy must forbid embedding in iframes."""
+    response = client.get('/')
+    csp = response.headers.get('Content-Security-Policy', '')
+    assert "frame-ancestors 'none'" in csp
+
+
+# ---------------------------------------------------------------------------
+# admin_required: inactive user is rejected even with a valid session
+# ---------------------------------------------------------------------------
+
 class TestInactiveUser:
   def test_inactive_user_redirected_to_login(self, app, db_session):
     """

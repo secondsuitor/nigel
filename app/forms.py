@@ -198,7 +198,14 @@ class ChangePasswordForm(FlaskForm):
   out the real owner.
   """
   current_password = PasswordField('Current Password', validators=[DataRequired()])
-  new_password = PasswordField('New Password', validators=[DataRequired(), Length(min=8)])
+  new_password = PasswordField('New Password', validators=[
+    DataRequired(),
+    Length(min=8),
+    Regexp(
+      r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)',
+      message='Password must contain at least one uppercase letter, one lowercase letter, and one digit.',
+    ),
+  ])
   confirm_password = PasswordField('Confirm New Password', validators=[DataRequired()])
   submit = SubmitField('Change Password')
 
@@ -332,3 +339,23 @@ class BlueskyPostForm(FlaskForm):
     },
   )
   submit = SubmitField('Post to Bluesky')
+
+
+class DeleteFootnoteForm(FlaskForm):
+  """
+  Minimal form used only for CSRF validation when deleting a footnote.
+
+  No fields are needed — the footnote ID comes from the URL.  Inheriting
+  from FlaskForm is what adds and validates the hidden CSRF token field.
+  """
+  submit = SubmitField('Delete')
+
+
+class DeleteSourceForm(FlaskForm):
+  """
+  Minimal form used only for CSRF validation when deleting a source.
+
+  No fields are needed — the source ID comes from the URL.  Inheriting
+  from FlaskForm is what adds and validates the hidden CSRF token field.
+  """
+  submit = SubmitField('Delete')

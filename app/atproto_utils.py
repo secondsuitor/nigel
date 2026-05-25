@@ -16,6 +16,7 @@ The module intentionally does NOT read from a config file so that credentials
 are never accidentally committed to the repository.
 """
 
+import logging
 import os
 import textwrap
 
@@ -156,7 +157,10 @@ def post_to_bluesky(post, custom_text=None):
     client.login(handle, app_password)
     response = client.send_post(text=text, facets=facets)
   except Exception as exc:
-    raise AtProtoError(f'Bluesky API error: {exc}') from exc
+    # Log the full exception server-side but never expose it in the flash
+    # message — the exception string may contain the app password or handle.
+    logging.exception('Bluesky API call failed')
+    raise AtProtoError('Bluesky API error — check server logs for details.') from exc
 
   # response.uri is the at:// URI of the new record.
   return response.uri

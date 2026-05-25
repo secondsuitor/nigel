@@ -34,13 +34,12 @@ from flask import (
 from flask_login import current_user, login_required, login_user, logout_user
 
 from app import db
-from app.forms import BlueskyPostForm, CategoryForm, ChangePasswordForm, FootnoteForm, ImageEditForm, ImageForm, ImportForm, LoginForm, PostForm, SourceForm, TotpVerifyForm
+from app.forms import BlueskyPostForm, CategoryForm, ChangePasswordForm, DeleteFootnoteForm, DeleteSourceForm, FootnoteForm, ImageEditForm, ImageForm, ImportForm, LoginForm, PostForm, SourceForm, TotpVerifyForm
 from app.image_utils import delete_image_file, process_uploaded_image
 from app.models import Category, Footnote, Image, Post, ProjectMeta, ReviewMeta, Source, User
 from app import limiter
 from app.atproto_utils import AtProtoAlreadyPosted, AtProtoError, build_preview, post_to_bluesky
-from flask_wtf.csrf import validate_csrf
-from wtforms import ValidationError
+
 
 main = Blueprint('main', __name__)
 
@@ -298,7 +297,14 @@ def login_verify():
     totp = pyotp.TOTP(user.totp_secret)
     # valid_window=1 accepts the code from the previous and next 30-second
     # windows to accommodate minor clock drift on the user's device.
-    if totp.verify(form.code.data.strip(), valid_window=1):
+    # Replay prevention: compute the TOTP interval for the submitted code and
+    # reject it if it matches the last successfully used interval.
+    import time as _time
+    current_interval = int(_time.time()) // 30
+    if (totp.verify(form.code.data.strip(), valid_window=1)
+        and current_interval != user.last_totp_at):
+      user.last_totp_at = current_interval
+      db.session.commit()
       remember = session.pop('pending_2fa_remember', False)
       next_page = safe_next_url(session.pop('pending_2fa_next', None))
       session.pop('pending_2fa_user_id', None)
@@ -351,8 +357,12 @@ def manage_2fa():
   qr_data_uri = 'data:image/png;base64,' + base64.b64encode(buffer.getvalue()).decode()
 
   if form.validate_on_submit():
-    if totp.verify(form.code.data.strip(), valid_window=1):
+    import time as _time
+    current_interval = int(_time.time()) // 30
+    if (totp.verify(form.code.data.strip(), valid_window=1)
+        and current_interval != current_user.last_totp_at):
       current_user.totp_secret = secret
+      current_user.last_totp_at = current_interval
       db.session.commit()
       session.pop('pending_totp_secret', None)
       flash('Two-factor authentication is now enabled.', 'success')
@@ -898,6 +908,21 @@ def export_posts():
   )
 
 
+def _validated_featured_image(value):
+  """
+  Return value only if it is a safe local static path, otherwise None.
+
+  Prevents an imported JSON file from storing external URLs or path-traversal
+  strings in the featured_image column.  Only paths starting with /static/
+  are accepted.
+  """
+  if not value:
+    return None
+  if isinstance(value, str) and re.match(r'^/static/[\w./-]+$', value):
+    return value
+  return None
+
+
 @main.route('/admin/import', methods=['GET', 'POST'])
 @admin_required
 def import_posts():
@@ -992,7 +1017,7 @@ def import_posts():
         wordpress_date=parse_dt(post_data.get('wordpress_date')),
         wordpress_url=post_data.get('wordpress_url'),
         meta_description=post_data.get('meta_description'),
-        featured_image=post_data.get('featured_image'),
+        featured_image=_validated_featured_image(post_data.get('featured_image')),
       )
       for cat_slug in post_data.get('categories', []):
         if cat_slug in category_map:
@@ -1143,15 +1168,13 @@ def delete_footnote(footnote_id):
   """
   Delete a footnote.
 
-  POST-only to prevent CSRF via crafted links.
-  Uses standalone CSRF validation because this action is submitted via a
-  small inline form that reuses the edit_post form's hidden_tag.
+  POST-only to prevent CSRF via crafted links.  The CSRF token is validated
+  by DeleteFootnoteForm which inherits from FlaskForm.
   """
   fn = db.get_or_404(Footnote, footnote_id)
   post_id = fn.post_id
-  try:
-    validate_csrf(request.form.get('csrf_token'))
-  except ValidationError:
+  form = DeleteFootnoteForm()
+  if not form.validate_on_submit():
     abort(400)
   db.session.delete(fn)
   db.session.commit()
@@ -1207,9 +1230,8 @@ def delete_source(source_id):
   """
   source = db.get_or_404(Source, source_id)
   post_id = source.post_id
-  try:
-    validate_csrf(request.form.get('csrf_token'))
-  except ValidationError:
+  form = DeleteSourceForm()
+  if not form.validate_on_submit():
     abort(400)
   # Detach footnotes that reference this source before deleting.
   for fn in source.footnotes:

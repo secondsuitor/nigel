@@ -164,6 +164,34 @@ class TestTwoFactor:
     assert response.status_code == 302
     assert '/login' in response.headers['Location']
 
+  def test_2fa_code_cannot_be_replayed(self, client, admin_user, db_session, app):
+    """
+    A TOTP code that has already been used must be rejected on the second
+    submission within the same 30-second window (replay attack prevention).
+
+    After the first successful login the user.last_totp_at is set to the
+    current time, which pyotp passes as the last_otp argument to verify().
+    The same code submitted again must fail.
+    """
+    secret = self._enable_2fa(admin_user, db_session)
+
+    # First login — succeeds and sets last_totp_at.
+    client.post('/login', data={'username': 'admin', 'password': 'correct-password'})
+    code = pyotp.TOTP(secret).now()
+    response = client.post('/login/verify', data={'code': code}, follow_redirects=False)
+    assert response.status_code == 302
+
+    # Log out so we can attempt a second verification.
+    client.get('/logout')
+
+    # Start a fresh pending session with the same (now replayed) code.
+    client.post('/login', data={'username': 'admin', 'password': 'correct-password'})
+    response = client.post('/login/verify', data={'code': code}, follow_redirects=False)
+    # pyotp.verify() returns False when last_otp matches — the route re-renders
+    # the verify page (200) with an error message.
+    assert response.status_code == 200
+    assert b'Invalid code' in response.data
+
 
 # ---------------------------------------------------------------------------
 # Logout

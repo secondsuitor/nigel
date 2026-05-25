@@ -152,5 +152,5 @@ class TestPostToBlueskyGuards:
       instance.send_post.side_effect = RuntimeError('connection refused')
 
       post = _make_post()
-      with pytest.raises(AtProtoError, match='connection refused'):
+      with pytest.raises(AtProtoError, match='check server logs'):
         post_to_bluesky(post)

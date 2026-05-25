@@ -151,6 +151,9 @@ class User(UserMixin, db.Model):
   # Stores the base32 TOTP secret when 2FA is enabled; None means disabled.
   # Never expose this value in logs, exports, or API responses.
   totp_secret = db.Column(db.String(64), nullable=True)
+  # Unix timestamp of the last successfully verified TOTP code.
+  # Used to prevent replay of a code within the same 30-second window.
+  last_totp_at = db.Column(db.Integer, nullable=True)
 
   def set_password(self, password):
     """Hash and store a new password.  Call db.session.commit() afterwards."""
